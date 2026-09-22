@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>STITOU Manager — Gestion Restaurant</title>
+
+    <meta name="description"
+          content="STITOU Manager - Solution professionnelle de gestion de restaurant pour Windows.">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #0b0b0b;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: min(1100px, 92%);
+            margin: auto;
+        }
+
+        /* HEADER */
+
+        header {
+            padding: 28px 0;
+            border-bottom: 1px solid rgba(255, 225, 126, 0.15);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            color: #ffe17e;
+        }
+
+        .badge {
+            border: 1px solid rgba(255, 225, 126, 0.35);
+            padding: 8px 14px;
+            border-radius: 20px;
+            color: #ffe17e;
+            font-size: 14px;
+        }
+
+        /* HERO */
+
+        .hero {
+            min-height: 650px;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 225, 126, 0.07);
+            border-radius: 50%;
+            filter: blur(80px);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+        }
+
+        .small-title {
+            color: #ffe17e;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: clamp(48px, 8vw, 88px);
+            line-height: 1;
+            letter-spacing: 6px;
+            margin-bottom: 18px;
+        }
+
+        .subtitle {
+            font-size: clamp(20px, 3vw, 30px);
+            color: #ffe17e;
+            margin-bottom: 20px;
+        }
+
+        .description {
+            max-width: 650px;
+            margin: 0 auto 35px;
+            color: #bdbdbd;
+            font-size: 17px;
+            line-height: 1.7;
+        }
+
+        /* DOWNLOAD BUTTON */
+
+        .download-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+
+            background: #ffe17e;
+            color: #111111;
+
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 700;
+
+            padding: 17px 32px;
+            border-radius: 12px;
+
+            box-shadow: 0 10px 35px rgba(255, 225, 126, 0.18);
+
+            transition: transform 0.2s ease,
+                        box-shadow 0.2s ease,
+                        background 0.2s ease;
+        }
+
+        .download-button:hover {
+            transform: translateY(-3px);
+            background: #fff0a8;
+            box-shadow: 0 15px 45px rgba(255, 225, 126, 0.28);
+        }
+
+        .download-button:active {
+            transform: translateY(0);
+        }
+
+        .download-icon {
+            font-size: 23px;
+        }
+
+        .version {
+            margin-top: 16px;
+            color: #888888;
+            font-size: 14px;
+        }
+
+        /* FEATURES */
+
+        .features {
+            padding: 80px 0;
+            background: #101010;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .section-description {
+            text-align: center;
+            color: #888888;
+            margin-bottom: 45px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: #171717;
+            border: 1px solid rgba(255, 225, 126, 0.10);
+            border-radius: 14px;
+            padding: 28px;
+            transition: transform 0.2s ease,
+                        border-color 0.2s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 225, 126, 0.35);
+        }
+
+        .feature-icon {
+            font-size: 30px;
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            color: #ffe17e;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .feature-card p {
+            color: #999999;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        /* SYSTEM */
+
+        .system {
+            padding: 70px 0;
+            text-align: center;
+        }
+
+        .system-box {
+            max-width: 650px;
+            margin: auto;
+            background: #141414;
+            border: 1px solid rgba(255, 225, 126, 0.15);
+            border-radius: 16px;
+            padding: 35px;
+        }
+
+        .system-box h2 {
+            margin-bottom: 20px;
+        }
+
+        .system-list {
+            list-style: none;
+            color: #aaaaaa;
+            line-height: 2;
+        }
+
+        .system-list li::before {
+            content: "✓";
+            color: #ffe17e;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        /* FOOTER */
+
+        footer {
+            padding: 30px 0;
+            text-align: center;
+            color: #666666;
+            font-size: 13px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        footer strong {
+            color: #ffe17e;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 750px) {
+
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .hero {
+                min-height: 580px;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .download-button {
+                width: 90%;
+                max-width: 360px;
+            }
+
+            h1 {
+                letter-spacing: 3px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="container">
+        <div class="header-content">
+            <div class="logo">STITOU</div>
+            <div class="badge">Gestion Restaurant</div>
+        </div>
+    </div>
+</header>
+
+
+<main>
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="container">
+
+            <div class="hero-content">
+
+                <div class="small-title">
+                    Solution professionnelle
+                </div>
+
+                <h1>STITOU</h1>
+
+                <div class="subtitle">
+                    Manager
+                </div>
+
+                <p class="description">
+                    Gérez votre restaurant simplement et efficacement.
+                    Employés, stock, fournisseurs, salaires, avances,
+                    finances et historique dans une seule application.
+                </p>
+
+                <!-- DOWNLOAD -->
+
+                <a
+                    class="download-button"
+                    href="https://github.com/USERNAME/STITOU-Manager/releases/download/v2.4.2/STITOU%20Manager-2.4.2.exe">
+
+                    <span class="download-icon">⬇</span>
+
+                    Télécharger pour Windows
+
+                </a>
+
+                <div class="version">
+                    Version 2.4.2 · Windows 10 / Windows 11
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FEATURES -->
+
+    <section class="features">
+
+        <div class="container">
+
+            <h2 class="section-title">
+                Tout votre restaurant au même endroit
+            </h2>
+
+            <p class="section-description">
+                Une gestion claire, rapide et professionnelle.
+            </p>
+
+            <div class="feature-grid">
+
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3>Employés</h3>
+                    <p>
+                        Gestion des employés, présence,
+                        absences et informations professionnelles.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📦</div>
+                    <h3>Stock</h3>
+                    <p>
+                        Suivez vos produits, mouvements de stock
+                        et fournisseurs.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>Salaires & Avances</h3>
+                    <p>
+                        Gérez les salaires, avances, primes
+                        et retenues.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Finance</h3>
+                    <p>
+                        Suivez les finances quotidiennes
+                        et consultez vos historiques.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🧾</div>
+                    <h3>Crédits</h3>
+                    <p>
+                        Suivez les dettes et crédits
+                        de manière organisée.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">☁️</div>
+                    <h3>Synchronisation</h3>
+                    <p>
+                        Synchronisation des données avec
+                        votre système de gestion.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- SYSTEM REQUIREMENTS -->
+
+    <section class="system">
+
+        <div class="container">
+
+            <div class="system-box">
+
+                <h2>
+                    Configuration requise
+                </h2>
+
+                <ul class="system-list">
+                    <li>Windows 10 ou Windows 11</li>
+                    <li>Architecture 64 bits</li>
+                    <li>Connexion Internet recommandée</li>
+                    <li>Aucune installation Java séparée nécessaire</li>
+                </ul>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <div class="container">
+
+        © 2026 <strong>STITOU</strong> · Gestion Restaurant
+
+    </div>
+
+</footer>
+
+</body>
+</html>
+
