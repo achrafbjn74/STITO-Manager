@@ -1,480 +1,1764 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>STITOU Manager — Gestion Restaurant</title>
 
-    <meta name="description"
-          content="STITOU Manager - Solution professionnelle de gestion de restaurant pour Windows.">
+<title>STITOU Manager — Gestion Restaurant Professionnelle</title>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+<meta name="description"
+      content="STITOU Manager — Solution professionnelle de gestion de restaurant pour Windows. Employés, stock, fournisseurs, salaires, finances et synchronisation Firebase.">
+
+<meta name="theme-color" content="#080808">
+
+<style>
+    :root {
+        --bg: #080808;
+        --bg-soft: #0d0d0d;
+        --surface: #121212;
+        --surface-2: #181818;
+        --gold: #ffe17e;
+        --gold-light: #fff1ad;
+        --gold-dark: #d9b94f;
+        --text: #ffffff;
+        --text-soft: #b7b7b7;
+        --text-muted: #777777;
+        --border: rgba(255, 225, 126, 0.13);
+        --border-light: rgba(255, 255, 255, 0.08);
+        --radius: 18px;
+        --container: 1180px;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+        overflow-x: hidden;
+    }
+
+    a {
+        color: inherit;
+    }
+
+    .container {
+        width: min(var(--container), 92%);
+        margin: auto;
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    header {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background: rgba(8, 8, 8, 0.88);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .navbar {
+        height: 76px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+    }
+
+    .brand-mark {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(
+            135deg,
+            var(--gold),
+            var(--gold-dark)
+        );
+        color: #101010;
+        font-weight: 900;
+        letter-spacing: 1px;
+        box-shadow: 0 8px 30px rgba(255, 225, 126, 0.15);
+    }
+
+    .brand-text {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.1;
+    }
+
+    .brand-name {
+        font-size: 18px;
+        font-weight: 900;
+        letter-spacing: 2px;
+    }
+
+    .brand-subtitle {
+        color: var(--text-muted);
+        font-size: 11px;
+        margin-top: 4px;
+    }
+
+    .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .nav-links a {
+        text-decoration: none;
+        color: #a9a9a9;
+        font-size: 14px;
+        transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+        color: var(--gold);
+    }
+
+    .nav-download {
+        background: var(--gold);
+        color: #101010 !important;
+        padding: 11px 18px;
+        border-radius: 10px;
+        font-weight: 700;
+    }
+
+    .nav-download:hover {
+        background: var(--gold-light);
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+        position: relative;
+        min-height: 720px;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        background:
+            radial-gradient(
+                circle at 50% 35%,
+                rgba(255, 225, 126, 0.09),
+                transparent 35%
+            ),
+            var(--bg);
+    }
+
+    .hero::before {
+        content: "";
+        position: absolute;
+        width: 650px;
+        height: 650px;
+        border-radius: 50%;
+        background: rgba(255, 225, 126, 0.045);
+        filter: blur(100px);
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+    }
+
+    .hero-grid {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 70px;
+        align-items: center;
+    }
+
+    .hero-content {
+        padding: 70px 0;
+    }
+
+    .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--gold);
+        border: 1px solid var(--border);
+        background: rgba(255, 225, 126, 0.045);
+        padding: 8px 13px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        margin-bottom: 25px;
+    }
+
+    .eyebrow-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--gold);
+        box-shadow: 0 0 12px var(--gold);
+    }
+
+    .hero h1 {
+        font-size: clamp(54px, 8vw, 94px);
+        line-height: 0.95;
+        letter-spacing: -3px;
+        margin-bottom: 22px;
+    }
+
+    .hero h1 span {
+        color: var(--gold);
+    }
+
+    .hero-title {
+        font-size: clamp(25px, 4vw, 40px);
+        font-weight: 500;
+        color: #e5e5e5;
+        margin-bottom: 22px;
+    }
+
+    .hero-description {
+        max-width: 650px;
+        color: var(--text-soft);
+        font-size: 18px;
+        line-height: 1.8;
+        margin-bottom: 34px;
+    }
+
+    .hero-actions {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        flex-wrap: wrap;
+    }
+
+    .primary-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 15px 24px;
+        border-radius: 12px;
+        background: var(--gold);
+        color: #101010;
+        text-decoration: none;
+        font-size: 15px;
+        font-weight: 800;
+        box-shadow: 0 15px 45px rgba(255, 225, 126, 0.16);
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease,
+            background 0.2s ease;
+    }
+
+    .primary-button:hover {
+        transform: translateY(-3px);
+        background: var(--gold-light);
+        box-shadow: 0 20px 55px rgba(255, 225, 126, 0.25);
+    }
+
+    .secondary-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 14px 22px;
+        border-radius: 12px;
+        border: 1px solid var(--border-light);
+        background: rgba(255, 255, 255, 0.025);
+        color: #dddddd;
+        text-decoration: none;
+        font-size: 15px;
+        font-weight: 600;
+        transition:
+            background 0.2s ease,
+            border-color 0.2s ease;
+    }
+
+    .secondary-button:hover {
+        background: rgba(255, 255, 255, 0.06);
+        border-color: rgba(255, 225, 126, 0.25);
+    }
+
+    .hero-meta {
+        display: flex;
+        gap: 24px;
+        margin-top: 28px;
+        color: var(--text-muted);
+        font-size: 13px;
+        flex-wrap: wrap;
+    }
+
+    .hero-meta span {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+    }
+
+    .hero-meta strong {
+        color: #aaaaaa;
+    }
+
+    /* HERO VISUAL */
+
+    .hero-visual {
+        position: relative;
+        min-height: 460px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .dashboard-card {
+        width: 100%;
+        max-width: 490px;
+        background: linear-gradient(
+            145deg,
+            #1b1b1b,
+            #101010
+        );
+        border: 1px solid rgba(255, 225, 126, 0.16);
+        border-radius: 22px;
+        padding: 20px;
+        box-shadow:
+            0 35px 100px rgba(0, 0, 0, 0.6),
+            0 0 70px rgba(255, 225, 126, 0.06);
+        transform: perspective(1000px) rotateY(-5deg) rotateX(2deg);
+    }
+
+    .dashboard-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    .window-dots {
+        display: flex;
+        gap: 6px;
+    }
+
+    .window-dots span {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #444444;
+    }
+
+    .dashboard-title {
+        font-size: 12px;
+        color: #999999;
+    }
+
+    .dashboard-brand {
+        font-size: 20px;
+        font-weight: 900;
+        letter-spacing: 2px;
+        color: var(--gold);
+        margin-bottom: 4px;
+    }
+
+    .dashboard-subtitle {
+        font-size: 11px;
+        color: #666666;
+        margin-bottom: 20px;
+    }
+
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .dashboard-item {
+        min-height: 88px;
+        padding: 15px;
+        background: #151515;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+    }
+
+    .dashboard-item-icon {
+        font-size: 19px;
+        margin-bottom: 7px;
+    }
+
+    .dashboard-item-title {
+        font-size: 12px;
+        color: #dddddd;
+    }
+
+    .dashboard-item-value {
+        color: var(--gold);
+        font-size: 11px;
+        margin-top: 4px;
+    }
+
+    /* =========================
+       TRUST BAR
+    ========================= */
+
+    .trust-bar {
+        border-top: 1px solid var(--border-light);
+        border-bottom: 1px solid var(--border-light);
+        background: #0c0c0c;
+    }
+
+    .trust-grid {
+        min-height: 100px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        align-items: center;
+    }
+
+    .trust-item {
+        text-align: center;
+        color: #8d8d8d;
+        font-size: 13px;
+    }
+
+    .trust-item strong {
+        display: block;
+        color: #e2e2e2;
+        font-size: 16px;
+        margin-bottom: 3px;
+    }
+
+    /* =========================
+       SECTIONS
+    ========================= */
+
+    section:not(.hero) {
+        scroll-margin-top: 90px;
+    }
+
+    .section {
+        padding: 100px 0;
+    }
+
+    .section-header {
+        max-width: 720px;
+        margin: 0 auto 55px;
+        text-align: center;
+    }
+
+    .section-label {
+        color: var(--gold);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-size: 12px;
+        font-weight: 800;
+        margin-bottom: 12px;
+    }
+
+    .section-title {
+        font-size: clamp(30px, 5vw, 48px);
+        line-height: 1.15;
+        margin-bottom: 16px;
+        letter-spacing: -1px;
+    }
+
+    .section-description {
+        color: var(--text-muted);
+        font-size: 16px;
+        line-height: 1.8;
+    }
+
+    /* =========================
+       FEATURES
+    ========================= */
+
+    .features-section {
+        background: var(--bg-soft);
+    }
+
+    .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+    }
+
+    .feature-card {
+        position: relative;
+        padding: 30px;
+        min-height: 230px;
+        background: var(--surface);
+        border: 1px solid var(--border-light);
+        border-radius: var(--radius);
+        overflow: hidden;
+        transition:
+            transform 0.25s ease,
+            border-color 0.25s ease,
+            background 0.25s ease;
+    }
+
+    .feature-card::before {
+        content: "";
+        position: absolute;
+        width: 140px;
+        height: 140px;
+        background: rgba(255, 225, 126, 0.05);
+        border-radius: 50%;
+        filter: blur(35px);
+        right: -60px;
+        top: -60px;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-6px);
+        border-color: rgba(255, 225, 126, 0.25);
+        background: #151515;
+    }
+
+    .feature-icon {
+        position: relative;
+        width: 48px;
+        height: 48px;
+        display: grid;
+        place-items: center;
+        border-radius: 13px;
+        background: rgba(255, 225, 126, 0.08);
+        border: 1px solid rgba(255, 225, 126, 0.13);
+        font-size: 22px;
+        margin-bottom: 22px;
+    }
+
+    .feature-card h3 {
+        position: relative;
+        font-size: 19px;
+        margin-bottom: 10px;
+    }
+
+    .feature-card p {
+        position: relative;
+        color: #858585;
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    /* =========================
+       ABOUT
+    ========================= */
+
+    .about-grid {
+        display: grid;
+        grid-template-columns: 0.9fr 1.1fr;
+        gap: 70px;
+        align-items: center;
+    }
+
+    .about-panel {
+        background:
+            radial-gradient(
+                circle at 30% 20%,
+                rgba(255, 225, 126, 0.10),
+                transparent 35%
+            ),
+            #111111;
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        padding: 42px;
+        min-height: 390px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .about-logo {
+        font-size: 54px;
+        font-weight: 900;
+        letter-spacing: 7px;
+        color: var(--gold);
+        margin-bottom: 8px;
+    }
+
+    .about-panel p {
+        color: #8c8c8c;
+        line-height: 1.8;
+    }
+
+    .about-list {
+        display: grid;
+        gap: 22px;
+    }
+
+    .about-item {
+        display: flex;
+        gap: 16px;
+    }
+
+    .check {
+        flex: 0 0 auto;
+        width: 30px;
+        height: 30px;
+        border-radius: 9px;
+        display: grid;
+        place-items: center;
+        background: rgba(255, 225, 126, 0.10);
+        color: var(--gold);
+        font-weight: 900;
+    }
+
+    .about-item h3 {
+        font-size: 17px;
+        margin-bottom: 4px;
+    }
+
+    .about-item p {
+        color: #777777;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    /* =========================
+       SCREENSHOTS
+    ========================= */
+
+    .screenshots-section {
+        background: var(--bg-soft);
+    }
+
+    .screenshots-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+    }
+
+    .screenshot-placeholder {
+        min-height: 260px;
+        border-radius: 18px;
+        border: 1px dashed rgba(255, 225, 126, 0.20);
+        background:
+            linear-gradient(
+                135deg,
+                rgba(255, 225, 126, 0.045),
+                rgba(255, 255, 255, 0.015)
+            );
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: #666666;
+        padding: 25px;
+    }
+
+    .screenshot-placeholder span {
+        font-size: 36px;
+        margin-bottom: 12px;
+    }
+
+    .screenshot-placeholder strong {
+        color: #999999;
+        font-size: 14px;
+    }
+
+    .screenshot-placeholder small {
+        margin-top: 6px;
+        font-size: 12px;
+    }
+
+    /* =========================
+       CTA
+    ========================= */
+
+    .cta {
+        padding: 100px 0;
+    }
+
+    .cta-box {
+        position: relative;
+        overflow: hidden;
+        text-align: center;
+        padding: 75px 30px;
+        border-radius: 26px;
+        border: 1px solid rgba(255, 225, 126, 0.18);
+        background:
+            radial-gradient(
+                circle at 50% 0%,
+                rgba(255, 225, 126, 0.12),
+                transparent 45%
+            ),
+            #111111;
+    }
+
+    .cta-box h2 {
+        font-size: clamp(32px, 5vw, 52px);
+        margin-bottom: 15px;
+    }
+
+    .cta-box p {
+        max-width: 620px;
+        margin: 0 auto 30px;
+        color: #858585;
+    }
+
+    .cta-version {
+        color: #666666;
+        font-size: 12px;
+        margin-top: 14px;
+    }
+
+    /* =========================
+       REQUIREMENTS
+    ========================= */
+
+    .requirements {
+        padding-top: 0;
+    }
+
+    .requirements-box {
+        max-width: 800px;
+        margin: auto;
+        padding: 35px;
+        border-radius: 18px;
+        background: var(--surface);
+        border: 1px solid var(--border-light);
+    }
+
+    .requirements-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+    }
+
+    .requirement {
+        padding: 16px;
+        border-radius: 12px;
+        background: #171717;
+        color: #999999;
+        font-size: 14px;
+    }
+
+    .requirement strong {
+        display: block;
+        color: #dddddd;
+        margin-bottom: 3px;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+        border-top: 1px solid var(--border-light);
+        background: #060606;
+        padding: 45px 0 25px;
+    }
+
+    .footer-grid {
+        display: grid;
+        grid-template-columns: 1.5fr 1fr 1fr;
+        gap: 40px;
+        padding-bottom: 35px;
+    }
+
+    .footer-brand {
+        max-width: 360px;
+    }
+
+    .footer-brand h3 {
+        color: var(--gold);
+        font-size: 22px;
+        letter-spacing: 3px;
+        margin-bottom: 10px;
+    }
+
+    .footer-brand p {
+        color: #666666;
+        font-size: 13px;
+        line-height: 1.7;
+    }
+
+    .footer-column h4 {
+        font-size: 13px;
+        color: #dddddd;
+        margin-bottom: 15px;
+    }
+
+    .footer-column a {
+        display: block;
+        color: #666666;
+        text-decoration: none;
+        font-size: 13px;
+        margin-bottom: 9px;
+    }
+
+    .footer-column a:hover {
+        color: var(--gold);
+    }
+
+    .footer-bottom {
+        padding-top: 22px;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        color: #555555;
+        font-size: 12px;
+    }
+
+    .footer-bottom strong {
+        color: var(--gold);
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 950px) {
+
+        .nav-links a:not(.nav-download) {
+            display: none;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: "Segoe UI", Arial, sans-serif;
-            background: #0b0b0b;
-            color: #ffffff;
-            min-height: 100vh;
-        }
-
-        .container {
-            width: min(1100px, 92%);
-            margin: auto;
-        }
-
-        /* HEADER */
-
-        header {
-            padding: 28px 0;
-            border-bottom: 1px solid rgba(255, 225, 126, 0.15);
-        }
-
-        .header-content {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .logo {
-            font-size: 28px;
-            font-weight: 800;
-            letter-spacing: 3px;
-            color: #ffe17e;
-        }
-
-        .badge {
-            border: 1px solid rgba(255, 225, 126, 0.35);
-            padding: 8px 14px;
-            border-radius: 20px;
-            color: #ffe17e;
-            font-size: 14px;
-        }
-
-        /* HERO */
-
-        .hero {
-            min-height: 650px;
-            display: flex;
-            align-items: center;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: "";
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            background: rgba(255, 225, 126, 0.07);
-            border-radius: 50%;
-            filter: blur(80px);
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        .hero-grid {
+            grid-template-columns: 1fr;
+            gap: 25px;
         }
 
         .hero-content {
-            position: relative;
-            z-index: 1;
-            width: 100%;
+            text-align: center;
+            padding-bottom: 20px;
         }
 
-        .small-title {
-            color: #ffe17e;
-            font-size: 15px;
-            font-weight: 600;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            margin-bottom: 18px;
+        .hero-description {
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        h1 {
-            font-size: clamp(48px, 8vw, 88px);
-            line-height: 1;
-            letter-spacing: 6px;
-            margin-bottom: 18px;
-        }
-
-        .subtitle {
-            font-size: clamp(20px, 3vw, 30px);
-            color: #ffe17e;
-            margin-bottom: 20px;
-        }
-
-        .description {
-            max-width: 650px;
-            margin: 0 auto 35px;
-            color: #bdbdbd;
-            font-size: 17px;
-            line-height: 1.7;
-        }
-
-        /* DOWNLOAD BUTTON */
-
-        .download-button {
-            display: inline-flex;
-            align-items: center;
+        .hero-actions {
             justify-content: center;
-            gap: 12px;
-
-            background: #ffe17e;
-            color: #111111;
-
-            text-decoration: none;
-            font-size: 18px;
-            font-weight: 700;
-
-            padding: 17px 32px;
-            border-radius: 12px;
-
-            box-shadow: 0 10px 35px rgba(255, 225, 126, 0.18);
-
-            transition: transform 0.2s ease,
-                        box-shadow 0.2s ease,
-                        background 0.2s ease;
         }
 
-        .download-button:hover {
-            transform: translateY(-3px);
-            background: #fff0a8;
-            box-shadow: 0 15px 45px rgba(255, 225, 126, 0.28);
+        .hero-meta {
+            justify-content: center;
         }
 
-        .download-button:active {
-            transform: translateY(0);
+        .hero-visual {
+            min-height: 390px;
         }
 
-        .download-icon {
-            font-size: 23px;
-        }
-
-        .version {
-            margin-top: 16px;
-            color: #888888;
-            font-size: 14px;
-        }
-
-        /* FEATURES */
-
-        .features {
-            padding: 80px 0;
-            background: #101010;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 32px;
-            margin-bottom: 12px;
-        }
-
-        .section-description {
-            text-align: center;
-            color: #888888;
-            margin-bottom: 45px;
+        .dashboard-card {
+            transform: none;
         }
 
         .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+            grid-template-columns: repeat(2, 1fr);
         }
 
-        .feature-card {
-            background: #171717;
-            border: 1px solid rgba(255, 225, 126, 0.10);
-            border-radius: 14px;
-            padding: 28px;
-            transition: transform 0.2s ease,
-                        border-color 0.2s ease;
+        .about-grid {
+            grid-template-columns: 1fr;
         }
 
-        .feature-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(255, 225, 126, 0.35);
+        .screenshots-grid {
+            grid-template-columns: 1fr;
         }
 
-        .feature-icon {
-            font-size: 30px;
-            margin-bottom: 15px;
+        .footer-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+    @media (max-width: 650px) {
+
+        .navbar {
+            height: 68px;
         }
 
-        .feature-card h3 {
-            color: #ffe17e;
-            margin-bottom: 10px;
-            font-size: 18px;
+        .brand-subtitle {
+            display: none;
         }
 
-        .feature-card p {
-            color: #999999;
-            line-height: 1.6;
-            font-size: 14px;
+        .hero {
+            min-height: auto;
         }
 
-        /* SYSTEM */
+        .hero-content {
+            padding: 70px 0 35px;
+        }
 
-        .system {
-            padding: 70px 0;
+        .hero h1 {
+            font-size: 58px;
+            letter-spacing: -2px;
+        }
+
+        .hero-title {
+            font-size: 25px;
+        }
+
+        .hero-description {
+            font-size: 15px;
+        }
+
+        .hero-actions {
+            flex-direction: column;
+        }
+
+        .primary-button,
+        .secondary-button {
+            width: 100%;
+            max-width: 360px;
+        }
+
+        .hero-visual {
+            min-height: 340px;
+            padding-bottom: 50px;
+        }
+
+        .dashboard-card {
+            max-width: 100%;
+        }
+
+        .trust-grid {
+            grid-template-columns: repeat(2, 1fr);
+            padding: 20px 0;
+        }
+
+        .feature-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .section {
+            padding: 75px 0;
+        }
+
+        .about-panel {
+            padding: 30px;
+        }
+
+        .about-logo {
+            font-size: 42px;
+        }
+
+        .requirements-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .footer-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .footer-bottom {
+            flex-direction: column;
             text-align: center;
         }
+    }
+</style>
+```
 
-        .system-box {
-            max-width: 650px;
-            margin: auto;
-            background: #141414;
-            border: 1px solid rgba(255, 225, 126, 0.15);
-            border-radius: 16px;
-            padding: 35px;
-        }
-
-        .system-box h2 {
-            margin-bottom: 20px;
-        }
-
-        .system-list {
-            list-style: none;
-            color: #aaaaaa;
-            line-height: 2;
-        }
-
-        .system-list li::before {
-            content: "✓";
-            color: #ffe17e;
-            font-weight: bold;
-            margin-right: 10px;
-        }
-
-        /* FOOTER */
-
-        footer {
-            padding: 30px 0;
-            text-align: center;
-            color: #666666;
-            font-size: 13px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        footer strong {
-            color: #ffe17e;
-        }
-
-        /* MOBILE */
-
-        @media (max-width: 750px) {
-
-            .header-content {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .hero {
-                min-height: 580px;
-            }
-
-            .feature-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .download-button {
-                width: 90%;
-                max-width: 360px;
-            }
-
-            h1 {
-                letter-spacing: 3px;
-            }
-        }
-    </style>
 </head>
 
 <body>
 
+<!-- =========================
+     HEADER
+========================= -->
+
 <header>
     <div class="container">
-        <div class="header-content">
-            <div class="logo">STITOU</div>
-            <div class="badge">Gestion Restaurant</div>
-        </div>
-    </div>
-</header>
+        <nav class="navbar">
 
+
+        <a href="#" class="brand">
+
+            <div class="brand-mark">
+                S
+            </div>
+
+            <div class="brand-text">
+                <span class="brand-name">STITOU</span>
+                <span class="brand-subtitle">Gestion Restaurant</span>
+            </div>
+
+        </a>
+
+        <div class="nav-links">
+
+            <a href="#fonctionnalites">
+                Fonctionnalités
+            </a>
+
+            <a href="#solution">
+                Solution
+            </a>
+
+            <a href="#configuration">
+                Configuration
+            </a>
+
+            <a
+                class="nav-download"
+                href="https://github.com/achrafbjn74/STITO-Manager/releases/download/v2.4.2/STITOU.Manager-2.4.2.exe">
+
+                Télécharger
+
+            </a>
+
+        </div>
+
+    </nav>
+</div>
+
+
+</header>
 
 <main>
 
-    <!-- HERO -->
+<!-- =========================
+     HERO
+========================= -->
 
-    <section class="hero">
+<section class="hero">
 
-        <div class="container">
 
-            <div class="hero-content">
+<div class="container">
 
-                <div class="small-title">
-                    Solution professionnelle
-                </div>
+    <div class="hero-grid">
 
-                <h1>STITOU</h1>
+        <div class="hero-content">
 
-                <div class="subtitle">
-                    Manager
-                </div>
+            <div class="eyebrow">
+                <span class="eyebrow-dot"></span>
+                Solution professionnelle
+            </div>
 
-                <p class="description">
-                    Gérez votre restaurant simplement et efficacement.
-                    Employés, stock, fournisseurs, salaires, avances,
-                    finances et historique dans une seule application.
-                </p>
+            <h1>
+                STIT<span>OU</span>
+            </h1>
 
-                <!-- DOWNLOAD -->
+            <div class="hero-title">
+                Votre restaurant. Simplifié.
+            </div>
+
+            <p class="hero-description">
+                STITOU Manager centralise la gestion de votre restaurant
+                dans une seule application moderne : employés, stock,
+                fournisseurs, salaires, avances, crédits, finances
+                et historique.
+            </p>
+
+            <div class="hero-actions">
 
                 <a
-                    class="download-button"
+                    class="primary-button"
                     href="https://github.com/achrafbjn74/STITO-Manager/releases/download/v2.4.2/STITOU.Manager-2.4.2.exe">
 
-                    <span class="download-icon">⬇</span>
-
+                    <span>↓</span>
                     Télécharger pour Windows
 
                 </a>
 
-                <div class="version">
-                    Version 2.4.2 · Windows 10 / Windows 11
+                <a
+                    class="secondary-button"
+                    href="#fonctionnalites">
+
+                    Découvrir STITOU
+
+                </a>
+
+            </div>
+
+            <div class="hero-meta">
+
+                <span>
+                    ✓ <strong>Windows 10 / 11</strong>
+                </span>
+
+                <span>
+                    ✓ <strong>64 bits</strong>
+                </span>
+
+                <span>
+                    ✓ <strong>Version 2.4.2</strong>
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- APP PREVIEW -->
+
+        <div class="hero-visual">
+
+            <div class="dashboard-card">
+
+                <div class="dashboard-top">
+
+                    <div class="window-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+
+                    <div class="dashboard-title">
+                        STITOU Manager
+                    </div>
+
+                </div>
+
+                <div class="dashboard-brand">
+                    STITOU
+                </div>
+
+                <div class="dashboard-subtitle">
+                    Gestion Restaurant
+                </div>
+
+                <div class="dashboard-grid">
+
+                    <div class="dashboard-item">
+                        <div class="dashboard-item-icon">👥</div>
+                        <div class="dashboard-item-title">
+                            Employés
+                        </div>
+                        <div class="dashboard-item-value">
+                            Gestion RH
+                        </div>
+                    </div>
+
+                    <div class="dashboard-item">
+                        <div class="dashboard-item-icon">📦</div>
+                        <div class="dashboard-item-title">
+                            Stock
+                        </div>
+                        <div class="dashboard-item-value">
+                            Produits
+                        </div>
+                    </div>
+
+                    <div class="dashboard-item">
+                        <div class="dashboard-item-icon">💰</div>
+                        <div class="dashboard-item-title">
+                            Salaires
+                        </div>
+                        <div class="dashboard-item-value">
+                            Paie
+                        </div>
+                    </div>
+
+                    <div class="dashboard-item">
+                        <div class="dashboard-item-icon">📊</div>
+                        <div class="dashboard-item-title">
+                            Finance
+                        </div>
+                        <div class="dashboard-item-value">
+                            Suivi
+                        </div>
+                    </div>
+
+                    <div class="dashboard-item">
+                        <div class="dashboard-item-icon">🧾</div>
+                        <div class="dashboard-item-title">
+                            Crédits
+                        </div>
+                        <div class="dashboard-item-value">
+                            Dettes
+                        </div>
+                    </div>
+
+                    <div class="dashboard-item">
+                        <div class="dashboard-item-icon">☁️</div>
+                        <div class="dashboard-item-title">
+                            Firebase
+                        </div>
+                        <div class="dashboard-item-value">
+                            Synchronisé
+                        </div>
+                    </div>
+
                 </div>
 
             </div>
 
         </div>
 
-    </section>
+    </div>
+
+</div>
 
 
-    <!-- FEATURES -->
+</section>
 
-    <section class="features">
+<!-- =========================
+     TRUST BAR
+========================= -->
 
-        <div class="container">
+<section class="trust-bar">
 
-            <h2 class="section-title">
-                Tout votre restaurant au même endroit
-            </h2>
 
-            <p class="section-description">
-                Une gestion claire, rapide et professionnelle.
+<div class="container">
+
+    <div class="trust-grid">
+
+        <div class="trust-item">
+            <strong>Gestion complète</strong>
+            Restaurant
+        </div>
+
+        <div class="trust-item">
+            <strong>Windows 10 / 11</strong>
+            Compatible
+        </div>
+
+        <div class="trust-item">
+            <strong>Firebase</strong>
+            Synchronisation
+        </div>
+
+        <div class="trust-item">
+            <strong>2.4.2</strong>
+            Version actuelle
+        </div>
+
+    </div>
+
+</div>
+
+
+</section>
+
+<!-- =========================
+     FEATURES
+========================= -->
+
+<section
+    class="section features-section"
+    id="fonctionnalites">
+
+
+<div class="container">
+
+    <div class="section-header">
+
+        <div class="section-label">
+            Fonctionnalités
+        </div>
+
+        <h2 class="section-title">
+            Tout ce dont votre restaurant a besoin.
+        </h2>
+
+        <p class="section-description">
+            Une plateforme conçue pour centraliser vos opérations
+            quotidiennes et garder une vision claire de votre activité.
+        </p>
+
+    </div>
+
+
+    <div class="feature-grid">
+
+        <div class="feature-card">
+
+            <div class="feature-icon">👥</div>
+
+            <h3>
+                Gestion des employés
+            </h3>
+
+            <p>
+                Gérez les employés, leurs informations,
+                présences, absences et horaires.
             </p>
 
-            <div class="feature-grid">
+        </div>
 
-                <div class="feature-card">
-                    <div class="feature-icon">👥</div>
-                    <h3>Employés</h3>
-                    <p>
-                        Gestion des employés, présence,
-                        absences et informations professionnelles.
-                    </p>
+
+        <div class="feature-card">
+
+            <div class="feature-icon">📦</div>
+
+            <h3>
+                Stock & produits
+            </h3>
+
+            <p>
+                Suivez les produits, mouvements de stock
+                et informations fournisseurs.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">💰</div>
+
+            <h3>
+                Salaires & avances
+            </h3>
+
+            <p>
+                Calculez et suivez les salaires, avances,
+                primes et retenues.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">🏦</div>
+
+            <h3>
+                Finance quotidienne
+            </h3>
+
+            <p>
+                Gardez une vision claire des finances
+                quotidiennes de votre restaurant.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">🧾</div>
+
+            <h3>
+                Crédits & dettes
+            </h3>
+
+            <p>
+                Organisez les crédits, dettes et paiements
+                de manière simple et structurée.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">☁️</div>
+
+            <h3>
+                Synchronisation
+            </h3>
+
+            <p>
+                Travaillez avec vos données synchronisées
+                grâce à l'intégration Firebase.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</section>
+
+<!-- =========================
+     SOLUTION
+========================= -->
+
+<section
+    class="section"
+    id="solution">
+
+
+<div class="container">
+
+    <div class="about-grid">
+
+        <div class="about-panel">
+
+            <div class="about-logo">
+                STITOU
+            </div>
+
+            <p>
+                Une solution pensée pour les restaurants
+                qui souhaitent passer d'une gestion dispersée
+                à une gestion centralisée, claire et moderne.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <div class="section-label">
+                Pourquoi STITOU ?
+            </div>
+
+            <h2 class="section-title">
+                Une seule application pour piloter votre activité.
+            </h2>
+
+            <div class="about-list">
+
+                <div class="about-item">
+
+                    <div class="check">
+                        ✓
+                    </div>
+
+                    <div>
+                        <h3>
+                            Une gestion centralisée
+                        </h3>
+
+                        <p>
+                            Toutes les informations importantes
+                            de votre restaurant réunies au même endroit.
+                        </p>
+                    </div>
+
                 </div>
 
-                <div class="feature-card">
-                    <div class="feature-icon">📦</div>
-                    <h3>Stock</h3>
-                    <p>
-                        Suivez vos produits, mouvements de stock
-                        et fournisseurs.
-                    </p>
+
+                <div class="about-item">
+
+                    <div class="check">
+                        ✓
+                    </div>
+
+                    <div>
+                        <h3>
+                            Une interface claire
+                        </h3>
+
+                        <p>
+                            Une organisation simple pour retrouver
+                            rapidement les informations dont vous avez besoin.
+                        </p>
+                    </div>
+
                 </div>
 
-                <div class="feature-card">
-                    <div class="feature-icon">💰</div>
-                    <h3>Salaires & Avances</h3>
-                    <p>
-                        Gérez les salaires, avances, primes
-                        et retenues.
-                    </p>
+
+                <div class="about-item">
+
+                    <div class="check">
+                        ✓
+                    </div>
+
+                    <div>
+                        <h3>
+                            Travail multi-utilisateur
+                        </h3>
+
+                        <p>
+                            Gérez les accès et travaillez avec
+                            plusieurs utilisateurs selon leurs rôles.
+                        </p>
+                    </div>
+
                 </div>
 
-                <div class="feature-card">
-                    <div class="feature-icon">📊</div>
-                    <h3>Finance</h3>
-                    <p>
-                        Suivez les finances quotidiennes
-                        et consultez vos historiques.
-                    </p>
-                </div>
 
-                <div class="feature-card">
-                    <div class="feature-icon">🧾</div>
-                    <h3>Crédits</h3>
-                    <p>
-                        Suivez les dettes et crédits
-                        de manière organisée.
-                    </p>
-                </div>
+                <div class="about-item">
 
-                <div class="feature-card">
-                    <div class="feature-icon">☁️</div>
-                    <h3>Synchronisation</h3>
-                    <p>
-                        Synchronisation des données avec
-                        votre système de gestion.
-                    </p>
+                    <div class="check">
+                        ✓
+                    </div>
+
+                    <div>
+                        <h3>
+                            Données synchronisées
+                        </h3>
+
+                        <p>
+                            L'intégration Firebase permet de synchroniser
+                            les données entre vos appareils connectés.
+                        </p>
+                    </div>
+
                 </div>
 
             </div>
 
         </div>
 
-    </section>
+    </div>
+
+</div>
 
 
-    <!-- SYSTEM REQUIREMENTS -->
+</section>
 
-    <section class="system">
+<!-- =========================
+     SCREENSHOTS
+========================= -->
 
-        <div class="container">
+<section class="section screenshots-section">
 
-            <div class="system-box">
 
-                <h2>
-                    Configuration requise
-                </h2>
+<div class="container">
 
-                <ul class="system-list">
-                    <li>Windows 10 ou Windows 11</li>
-                    <li>Architecture 64 bits</li>
-                    <li>Connexion Internet recommandée</li>
-                    <li>Aucune installation Java séparée nécessaire</li>
-                </ul>
+    <div class="section-header">
 
+        <div class="section-label">
+            Interface
+        </div>
+
+        <h2 class="section-title">
+            Découvrez STITOU Manager.
+        </h2>
+
+        <p class="section-description">
+            Une interface moderne conçue pour faciliter
+            la gestion quotidienne de votre restaurant.
+        </p>
+
+    </div>
+
+
+    <div class="screenshots-grid">
+
+        <div class="screenshot-placeholder">
+            <span>🖥️</span>
+            <strong>Tableau de bord</strong>
+            <small>
+                Capture d'écran à ajouter
+            </small>
+        </div>
+
+        <div class="screenshot-placeholder">
+            <span>📦</span>
+            <strong>Gestion du stock</strong>
+            <small>
+                Capture d'écran à ajouter
+            </small>
+        </div>
+
+        <div class="screenshot-placeholder">
+            <span>💰</span>
+            <strong>Finance & salaires</strong>
+            <small>
+                Capture d'écran à ajouter
+            </small>
+        </div>
+
+    </div>
+
+</div>
+
+
+</section>
+
+<!-- =========================
+     CTA
+========================= -->
+
+<section class="cta">
+
+
+<div class="container">
+
+    <div class="cta-box">
+
+        <div class="section-label">
+            Commencez maintenant
+        </div>
+
+        <h2>
+            Prêt à simplifier votre gestion ?
+        </h2>
+
+        <p>
+            Téléchargez STITOU Manager pour Windows
+            et centralisez la gestion de votre restaurant
+            dans une seule solution.
+        </p>
+
+        <a
+            class="primary-button"
+            href="https://github.com/achrafbjn74/STITO-Manager/releases/download/v2.4.2/STITOU.Manager-2.4.2.exe">
+
+            ↓ Télécharger STITOU Manager
+
+        </a>
+
+        <div class="cta-version">
+            Version 2.4.2 · Windows 10 / Windows 11 · 64 bits
+        </div>
+
+    </div>
+
+</div>
+
+
+</section>
+
+<!-- =========================
+     REQUIREMENTS
+========================= -->
+
+<section
+    class="section requirements"
+    id="configuration">
+
+<div class="container">
+
+    <div class="section-header">
+
+        <div class="section-label">
+            Configuration
+        </div>
+
+        <h2 class="section-title">
+            Simple à installer.
+        </h2>
+
+        <p class="section-description">
+            STITOU Manager est distribué sous forme
+            d'installateur Windows.
+        </p>
+
+    </div>
+
+
+    <div class="requirements-box">
+
+        <div class="requirements-grid">
+
+            <div class="requirement">
+                <strong>Système</strong>
+                Windows 10 ou Windows 11
+            </div>
+
+            <div class="requirement">
+                <strong>Architecture</strong>
+                64 bits
+            </div>
+
+            <div class="requirement">
+                <strong>Java</strong>
+                Aucune installation séparée nécessaire
+            </div>
+
+            <div class="requirement">
+                <strong>Internet</strong>
+                Recommandé pour la synchronisation
             </div>
 
         </div>
 
-    </section>
+    </div>
+
+</div>
+
+
+</section>
 
 </main>
 
+<!-- =========================
+     FOOTER
+========================= -->
 
 <footer>
 
-    <div class="container">
 
-        © 2026 <strong>STITOU</strong> · Gestion Restaurant
+<div class="container">
+
+    <div class="footer-grid">
+
+        <div class="footer-brand">
+
+            <h3>
+                STITOU
+            </h3>
+
+            <p>
+                Solution professionnelle de gestion
+                pour restaurants. Centralisez vos opérations,
+                vos finances et vos ressources.
+            </p>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h4>
+                Navigation
+            </h4>
+
+            <a href="#fonctionnalites">
+                Fonctionnalités
+            </a>
+
+            <a href="#solution">
+                Solution
+            </a>
+
+            <a href="#configuration">
+                Configuration
+            </a>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h4>
+                Télécharger
+            </h4>
+
+            <a
+                href="https://github.com/achrafbjn74/STITO-Manager/releases/download/v2.4.2/STITOU.Manager-2.4.2.exe">
+
+                Windows 10 / 11
+
+            </a>
+
+            <a
+                href="https://github.com/achrafbjn74/STITO-Manager/releases/tag/v2.4.2">
+
+                Version 2.4.2
+
+            </a>
+
+        </div>
 
     </div>
+
+
+    <div class="footer-bottom">
+
+        <span>
+            © 2026 <strong>STITOU</strong>
+            · Gestion Restaurant
+        </span>
+
+        <span>
+            STITOU Manager 2.4.2
+        </span>
+
+    </div>
+
+</div>
+
 
 </footer>
 
 </body>
 </html>
-
