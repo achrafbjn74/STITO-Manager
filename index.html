@@ -826,6 +826,385 @@
         color: var(--gold);
     }
 
+
+/* =========================
+   STITOU MOTION SYSTEM
+========================= */
+
+:root {
+    --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes stitoFadeUp {
+    from { opacity: 0; transform: translate3d(0, 28px, 0); }
+    to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes stitoFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes stitoFloat {
+    0%, 100% { transform: translateY(0) rotateZ(0deg); }
+    50% { transform: translateY(-10px) rotateZ(0.35deg); }
+}
+
+@keyframes stitoPulse {
+    0%, 100% { opacity: .65; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.18); }
+}
+
+@keyframes stitoShimmer {
+    0% { transform: translateX(-120%); }
+    100% { transform: translateX(120%); }
+}
+
+@keyframes stitoGlow {
+    0%, 100% { box-shadow: 0 0 0 rgba(255,225,126,0); }
+    50% { box-shadow: 0 0 32px rgba(255,225,126,.13); }
+}
+
+/* Initial state for scroll-reveal elements */
+.motion-reveal {
+    opacity: 0;
+    transform: translate3d(0, 34px, 0);
+    transition:
+        opacity .8s var(--motion-ease),
+        transform .8s var(--motion-ease);
+    will-change: opacity, transform;
+}
+
+.motion-reveal.is-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+}
+
+/* Hero entrance */
+.hero .eyebrow {
+    animation: stitoFadeUp .75s var(--motion-ease) both;
+}
+
+.hero h1 {
+    animation: stitoFadeUp .85s .08s var(--motion-ease) both;
+}
+
+.hero .hero-title {
+    animation: stitoFadeUp .85s .16s var(--motion-ease) both;
+}
+
+.hero .hero-description {
+    animation: stitoFadeUp .85s .24s var(--motion-ease) both;
+}
+
+.hero .hero-actions {
+    animation: stitoFadeUp .85s .32s var(--motion-ease) both;
+}
+
+.hero .hero-meta {
+    animation: stitoFadeUp .85s .40s var(--motion-ease) both;
+}
+
+.hero-visual {
+    animation: stitoFadeIn 1s .18s ease both;
+}
+
+.dashboard-card {
+    animation: stitoFloat 6s ease-in-out infinite, stitoGlow 4s ease-in-out infinite;
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+
+.eyebrow-dot {
+    animation: stitoPulse 2s ease-in-out infinite;
+}
+
+/* Cards become progressively visible */
+.feature-card,
+.dashboard-item,
+.about-item,
+.screenshot-placeholder,
+.requirement,
+.trust-item {
+    transition:
+        transform .35s var(--motion-ease),
+        opacity .35s ease,
+        border-color .25s ease,
+        background .25s ease,
+        box-shadow .35s ease;
+}
+
+.feature-card:hover {
+    box-shadow: 0 20px 50px rgba(0,0,0,.28);
+}
+
+.dashboard-item:hover {
+    transform: translateY(-4px) scale(1.015);
+    border-color: rgba(255,225,126,.20);
+    background: #191919;
+}
+
+.screenshot-placeholder {
+    position: relative;
+    overflow: hidden;
+}
+
+.screenshot-placeholder::after,
+.feature-card::after,
+.cta-box::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+        110deg,
+        transparent 25%,
+        rgba(255,225,126,.055) 50%,
+        transparent 75%
+    );
+    transform: translateX(-120%);
+}
+
+.screenshot-placeholder:hover::after,
+.feature-card:hover::after,
+.cta-box:hover::after {
+    animation: stitoShimmer .9s ease;
+}
+
+.primary-button,
+.secondary-button,
+.nav-download {
+    position: relative;
+    overflow: hidden;
+}
+
+.primary-button::after,
+.nav-download::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -35%;
+    width: 25%;
+    transform: skewX(-18deg);
+    background: rgba(255,255,255,.35);
+    transition: left .55s ease;
+}
+
+.primary-button:hover::after,
+.nav-download:hover::after {
+    left: 125%;
+}
+
+.about-panel {
+    transition:
+        transform .45s var(--motion-ease),
+        box-shadow .45s ease,
+        border-color .3s ease;
+}
+
+.about-panel:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255,225,126,.24);
+    box-shadow: 0 28px 70px rgba(0,0,0,.28);
+}
+
+.check {
+    transition: transform .3s var(--motion-ease), box-shadow .3s ease;
+}
+
+.about-item:hover .check {
+    transform: scale(1.1) rotate(4deg);
+    box-shadow: 0 0 22px rgba(255,225,126,.12);
+}
+
+.cta-box {
+    transition: transform .45s var(--motion-ease), border-color .3s ease;
+}
+
+.cta-box:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255,225,126,.28);
+}
+
+/* Active navigation while scrolling */
+.nav-links a[data-active="true"]:not(.nav-download) {
+    color: var(--gold);
+}
+
+/* Reading progress */
+#stito-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    z-index: 2000;
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light));
+    box-shadow: 0 0 12px rgba(255,225,126,.45);
+    pointer-events: none;
+}
+
+/* Back to top */
+#stito-top {
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(255,225,126,.22);
+    border-radius: 50%;
+    background: rgba(18,18,18,.86);
+    color: var(--gold);
+    display: grid;
+    place-items: center;
+    font-size: 18px;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(12px);
+    transition:
+        opacity .3s ease,
+        visibility .3s ease,
+        transform .3s var(--motion-ease),
+        background .25s ease;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+#stito-top.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+#stito-top:hover {
+    background: rgba(255,225,126,.10);
+    transform: translateY(-3px);
+}
+
+/* Mobile menu button */
+.stito-menu-toggle {
+    display: none;
+    width: 42px;
+    height: 42px;
+    border: 1px solid rgba(255,255,255,.09);
+    border-radius: 11px;
+    background: rgba(255,255,255,.025);
+    color: #fff;
+    cursor: pointer;
+    font-size: 20px;
+    transition: background .25s ease, border-color .25s ease;
+}
+
+.stito-menu-toggle:hover {
+    background: rgba(255,225,126,.08);
+    border-color: rgba(255,225,126,.22);
+}
+
+.stito-menu-toggle span,
+.stito-menu-toggle span::before,
+.stito-menu-toggle span::after {
+    display: block;
+    width: 19px;
+    height: 2px;
+    margin: auto;
+    background: currentColor;
+    border-radius: 2px;
+    transition: transform .3s ease, opacity .2s ease;
+    content: "";
+}
+
+.stito-menu-toggle span::before {
+    transform: translateY(-6px);
+}
+
+.stito-menu-toggle span::after {
+    transform: translateY(4px);
+}
+
+.stito-menu-toggle.is-open span {
+    transform: rotate(45deg);
+}
+
+.stito-menu-toggle.is-open span::before {
+    transform: translateY(0) rotate(90deg);
+}
+
+.stito-menu-toggle.is-open span::after {
+    opacity: 0;
+}
+
+@media (max-width: 950px) {
+    .stito-menu-toggle {
+        display: block;
+    }
+
+    .nav-links {
+        position: absolute;
+        top: calc(100% + 1px);
+        left: 0;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 4px;
+        padding: 12px 4%;
+        background: rgba(8,8,8,.97);
+        border-bottom: 1px solid rgba(255,255,255,.07);
+        box-shadow: 0 20px 40px rgba(0,0,0,.35);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition:
+            opacity .3s ease,
+            visibility .3s ease,
+            transform .3s var(--motion-ease);
+    }
+
+    .nav-links.is-open {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .nav-links a,
+    .nav-links a:not(.nav-download) {
+        display: block;
+        padding: 12px 14px;
+        border-radius: 9px;
+    }
+
+    .nav-links a:hover {
+        background: rgba(255,225,126,.06);
+    }
+
+    .nav-download {
+        text-align: center;
+        margin-top: 4px;
+    }
+}
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+
+    .motion-reveal {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
+
     /* =========================
        MOBILE
     ========================= */
@@ -1216,22 +1595,22 @@
 
     <div class="trust-grid">
 
-        <div class="trust-item">
+        <div class="trust-item motion-reveal">
             <strong>Gestion complète</strong>
             Restaurant
         </div>
 
-        <div class="trust-item">
+        <div class="trust-item motion-reveal">
             <strong>Windows 10 / 11</strong>
             Compatible
         </div>
 
-        <div class="trust-item">
+        <div class="trust-item motion-reveal">
             <strong>Firebase</strong>
             Synchronisation
         </div>
 
-        <div class="trust-item">
+        <div class="trust-item motion-reveal">
             <strong>2.4.3</strong>
             Version actuelle
         </div>
@@ -1254,7 +1633,7 @@
 
 <div class="container">
 
-    <div class="section-header">
+    <div class="section-header motion-reveal">
 
         <div class="section-label">
             Fonctionnalités
@@ -1274,7 +1653,7 @@
 
     <div class="feature-grid">
 
-        <div class="feature-card">
+        <div class="feature-card motion-reveal">
 
             <div class="feature-icon">👥</div>
 
@@ -1290,7 +1669,7 @@
         </div>
 
 
-        <div class="feature-card">
+        <div class="feature-card motion-reveal">
 
             <div class="feature-icon">📦</div>
 
@@ -1306,7 +1685,7 @@
         </div>
 
 
-        <div class="feature-card">
+        <div class="feature-card motion-reveal">
 
             <div class="feature-icon">💰</div>
 
@@ -1322,7 +1701,7 @@
         </div>
 
 
-        <div class="feature-card">
+        <div class="feature-card motion-reveal">
 
             <div class="feature-icon">🏦</div>
 
@@ -1338,7 +1717,7 @@
         </div>
 
 
-        <div class="feature-card">
+        <div class="feature-card motion-reveal">
 
             <div class="feature-icon">🧾</div>
 
@@ -1354,7 +1733,7 @@
         </div>
 
 
-        <div class="feature-card">
+        <div class="feature-card motion-reveal">
 
             <div class="feature-icon">☁️</div>
 
@@ -1389,7 +1768,7 @@
 
     <div class="about-grid">
 
-        <div class="about-panel">
+        <div class="about-panel motion-reveal">
 
             <div class="about-logo">
                 STITOU
@@ -1416,7 +1795,7 @@
 
             <div class="about-list">
 
-                <div class="about-item">
+                <div class="about-item motion-reveal">
 
                     <div class="check">
                         ✓
@@ -1436,7 +1815,7 @@
                 </div>
 
 
-                <div class="about-item">
+                <div class="about-item motion-reveal">
 
                     <div class="check">
                         ✓
@@ -1456,7 +1835,7 @@
                 </div>
 
 
-                <div class="about-item">
+                <div class="about-item motion-reveal">
 
                     <div class="check">
                         ✓
@@ -1476,7 +1855,7 @@
                 </div>
 
 
-                <div class="about-item">
+                <div class="about-item motion-reveal">
 
                     <div class="check">
                         ✓
@@ -1515,7 +1894,7 @@
 
 <div class="container">
 
-    <div class="section-header">
+    <div class="section-header motion-reveal">
 
         <div class="section-label">
             Interface
@@ -1535,7 +1914,7 @@
 
     <div class="screenshots-grid">
 
-        <div class="screenshot-placeholder">
+        <div class="screenshot-placeholder motion-reveal">
             <span>🖥️</span>
             <strong>Tableau de bord</strong>
             <small>
@@ -1543,7 +1922,7 @@
             </small>
         </div>
 
-        <div class="screenshot-placeholder">
+        <div class="screenshot-placeholder motion-reveal">
             <span>📦</span>
             <strong>Gestion du stock</strong>
             <small>
@@ -1551,7 +1930,7 @@
             </small>
         </div>
 
-        <div class="screenshot-placeholder">
+        <div class="screenshot-placeholder motion-reveal">
             <span>💰</span>
             <strong>Finance & salaires</strong>
             <small>
@@ -1620,7 +1999,7 @@
 
 <div class="container">
 
-    <div class="section-header">
+    <div class="section-header motion-reveal">
 
         <div class="section-label">
             Configuration
@@ -1642,22 +2021,22 @@
 
         <div class="requirements-grid">
 
-            <div class="requirement">
+            <div class="requirement motion-reveal">
                 <strong>Système</strong>
                 Windows 10 ou Windows 11
             </div>
 
-            <div class="requirement">
+            <div class="requirement motion-reveal">
                 <strong>Architecture</strong>
                 64 bits
             </div>
 
-            <div class="requirement">
+            <div class="requirement motion-reveal">
                 <strong>Java</strong>
                 Aucune installation séparée nécessaire
             </div>
 
-            <div class="requirement">
+            <div class="requirement motion-reveal">
                 <strong>Internet</strong>
                 Recommandé pour la synchronisation
             </div>
@@ -1762,6 +2141,205 @@
 
 
 </footer>
+
+
+<script>
+(function () {
+    "use strict";
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    /* ---------------------------------
+       1. Scroll reveal + stagger
+    --------------------------------- */
+    const revealGroups = [
+        ".section-header",
+        ".trust-item",
+        ".feature-card",
+        ".about-panel",
+        ".about-item",
+        ".screenshot-placeholder",
+        ".requirement"
+    ];
+
+    if (!reduceMotion && "IntersectionObserver" in window) {
+        const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+
+                const element = entry.target;
+                element.classList.add("is-visible");
+                obs.unobserve(element);
+            });
+        }, {
+            threshold: 0.12,
+            rootMargin: "0px 0px -45px 0px"
+        });
+
+        revealGroups.forEach(selector => {
+            document.querySelectorAll(selector).forEach((element, index) => {
+                element.style.transitionDelay = `${Math.min(index * 55, 330)}ms`;
+                observer.observe(element);
+            });
+        });
+    } else {
+        document.querySelectorAll(".motion-reveal").forEach(el => {
+            el.classList.add("is-visible");
+        });
+    }
+
+    /* ---------------------------------
+       2. Reading progress + back to top
+    --------------------------------- */
+    const progress = document.createElement("div");
+    progress.id = "stito-progress";
+    document.body.prepend(progress);
+
+    const topButton = document.createElement("button");
+    topButton.id = "stito-top";
+    topButton.type = "button";
+    topButton.setAttribute("aria-label", "Retour en haut");
+    topButton.innerHTML = "↑";
+    document.body.appendChild(topButton);
+
+    let ticking = false;
+
+    function updateScrollUI() {
+        const doc = document.documentElement;
+        const maxScroll = doc.scrollHeight - doc.clientHeight;
+        const current = window.scrollY || 0;
+        const percentage = maxScroll > 0 ? (current / maxScroll) * 100 : 0;
+
+        progress.style.width = `${percentage}%`;
+        topButton.classList.toggle("is-visible", current > 600);
+
+        ticking = false;
+    }
+
+    window.addEventListener("scroll", () => {
+        if (!ticking) {
+            window.requestAnimationFrame(updateScrollUI);
+            ticking = true;
+        }
+    }, { passive: true });
+
+    topButton.addEventListener("click", () => {
+        window.scrollTo({
+            top: 0,
+            behavior: reduceMotion ? "auto" : "smooth"
+        });
+    });
+
+    updateScrollUI();
+
+    /* ---------------------------------
+       3. Mobile navigation
+    --------------------------------- */
+    const navbar = document.querySelector(".navbar");
+    const navLinks = document.querySelector(".nav-links");
+
+    if (navbar && navLinks) {
+        const toggle = document.createElement("button");
+        toggle.className = "stito-menu-toggle";
+        toggle.type = "button";
+        toggle.setAttribute("aria-label", "Ouvrir le menu");
+        toggle.setAttribute("aria-expanded", "false");
+        toggle.innerHTML = "<span></span>";
+
+        navbar.insertBefore(toggle, navLinks);
+
+        const closeMenu = () => {
+            navLinks.classList.remove("is-open");
+            toggle.classList.remove("is-open");
+            toggle.setAttribute("aria-expanded", "false");
+            toggle.setAttribute("aria-label", "Ouvrir le menu");
+        };
+
+        toggle.addEventListener("click", () => {
+            const open = navLinks.classList.toggle("is-open");
+            toggle.classList.toggle("is-open", open);
+            toggle.setAttribute("aria-expanded", String(open));
+            toggle.setAttribute("aria-label", open ? "Fermer le menu" : "Ouvrir le menu");
+        });
+
+        navLinks.querySelectorAll("a").forEach(link => {
+            link.addEventListener("click", closeMenu);
+        });
+
+        window.addEventListener("resize", () => {
+            if (window.innerWidth > 950) closeMenu();
+        });
+    }
+
+    /* ---------------------------------
+       4. Active navigation section
+    --------------------------------- */
+    const navAnchors = Array.from(document.querySelectorAll(
+        '.nav-links a[href^="#"], footer a[href^="#"]'
+    ));
+
+    const sections = Array.from(document.querySelectorAll(
+        "main section[id]"
+    ));
+
+    if ("IntersectionObserver" in window && sections.length) {
+        const sectionObserver = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+
+                const id = `#${entry.target.id}`;
+                navAnchors.forEach(link => {
+                    if (link.getAttribute("href") === id) {
+                        link.dataset.active = "true";
+                    } else if (link.classList.contains("nav-download")) {
+                        link.dataset.active = "false";
+                    }
+                });
+            });
+        }, {
+            rootMargin: "-35% 0px -55% 0px",
+            threshold: 0
+        });
+
+        sections.forEach(section => sectionObserver.observe(section));
+    }
+
+    /* ---------------------------------
+       5. Gentle dashboard mouse motion
+    --------------------------------- */
+    const dashboard = document.querySelector(".dashboard-card");
+
+    if (dashboard && !reduceMotion && window.matchMedia("(pointer: fine)").matches) {
+        const visual = dashboard.closest(".hero-visual");
+
+        visual?.addEventListener("pointermove", event => {
+            const rect = visual.getBoundingClientRect();
+            const x = (event.clientX - rect.left) / rect.width - 0.5;
+            const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+            dashboard.style.animationPlayState = "paused";
+            dashboard.style.transform =
+                `perspective(1000px) rotateY(${(-5 + x * 7).toFixed(2)}deg) ` +
+                `rotateX(${(2 - y * 5).toFixed(2)}deg) ` +
+                `translate3d(${(x * 5).toFixed(1)}px, ${(y * -5).toFixed(1)}px, 0)`;
+        });
+
+        visual?.addEventListener("pointerleave", () => {
+            dashboard.style.animationPlayState = "";
+            dashboard.style.transform = "";
+        });
+    }
+
+    /* ---------------------------------
+       6. Prevent accidental duplicate download
+          actions from being changed; only add
+          an accessibility hint.
+    --------------------------------- */
+    document.querySelectorAll('a[href$=".exe"]').forEach(link => {
+        link.setAttribute("download", "");
+    });
+})();
+</script>
 
 </body>
 </html>
