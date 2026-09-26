@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Menu Marocain — STITOU Manager</title>
+
+    <meta name="description" content="Découvrez notre menu authentique de cuisine marocaine avec les meilleures spécialités traditionnelles.">
+
+    <meta name="theme-color" content="#080808">
+
+    <style>
+        :root {
+            --bg: #080808;
+            --bg-soft: #0d0d0d;
+            --surface: #121212;
+            --surface-2: #181818;
+            --gold: #ffe17e;
+            --gold-light: #fff1ad;
+            --gold-dark: #d9b94f;
+            --text: #ffffff;
+            --text-soft: #b7b7b7;
+            --text-muted: #777777;
+            --border: rgba(255, 225, 126, 0.13);
+            --border-light: rgba(255, 255, 255, 0.08);
+            --radius: 18px;
+            --container: 1180px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .container {
+            width: min(var(--container), 92%);
+            margin: auto;
+        }
+
+        /* =========================
+           ANIMATIONS
+        ========================= */
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 12px var(--gold);
+            }
+            50% {
+                transform: scale(1.2);
+                box-shadow: 0 0 20px var(--gold);
+            }
+        }
+
+        /* =========================
+           SCROLL ANIMATION STATES
+        ========================= */
+
+        [data-scroll="slide-up"] {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        [data-scroll="slide-up"].is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        [data-scroll="scale-rotate"] {
+            opacity: 0;
+            transform: scale(0.8) rotate(-15deg);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        [data-scroll="scale-rotate"].is-visible {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(8, 8, 8, 0.92);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(255, 225, 126, 0.1);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        header.scrolled {
+            border-bottom-color: rgba(255, 225, 126, 0.2);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .navbar {
+            height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            animation: slideInLeft 0.6s ease;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .brand:hover {
+            transform: translateY(-2px);
+        }
+
+        .brand-mark {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+            background: #ffe17e;
+            box-shadow: 0 8px 30px rgba(255, 225, 126, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .brand:hover .brand-mark {
+            box-shadow: 0 12px 40px rgba(255, 225, 126, 0.25);
+            transform: scale(1.05);
+        }
+
+        .brand-mark img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .brand:hover .brand-mark img {
+            transform: rotate(5deg) scale(1.1);
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+        }
+
+        .brand-name {
+            font-size: 18px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            transition: color 0.3s ease;
+        }
+
+        .brand:hover .brand-name {
+            color: var(--gold);
+            text-shadow: 0 0 10px rgba(255, 225, 126, 0.5);
+        }
+
+        .brand-subtitle {
+            color: var(--text-muted);
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #a9a9a9;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-back {
+            background: var(--gold);
+            color: #101010 !important;
+            padding: 11px 18px;
+            border-radius: 10px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .nav-back:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 225, 126, 0.3);
+        }
+
+        /* =========================
+           HERO / HEADER SECTION
+        ========================= */
+
+        .menu-hero {
+            position: relative;
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background: linear-gradient(
+                135deg,
+                rgba(255, 225, 126, 0.1),
+                rgba(255, 225, 126, 0.02)
+            );
+            padding: 60px 0;
+        }
+
+        .menu-hero::before {
+            content: "";
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: rgba(255, 225, 126, 0.045);
+            filter: blur(100px);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .menu-hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .menu-hero h1 {
+            font-size: clamp(48px, 8vw, 80px);
+            line-height: 0.95;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .menu-hero p {
+            color: var(--text-soft);
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .menu-hero-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--gold);
+            margin: 0 8px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* =========================
+           FOOD CATEGORIES
+        ========================= */
+
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .section-title h2 {
+            font-size: clamp(36px, 6vw, 56px);
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, var(--text), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-title p {
+            color: var(--text-soft);
+            font-size: 16px;
+        }
+
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .food-card {
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(255, 225, 126, 0.04), transparent);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: pointer;
+        }
+
+        .food-card:hover {
+            border-color: rgba(255, 225, 126, 0.3);
+            background: linear-gradient(135deg, rgba(255, 225, 126, 0.1), rgba(255, 225, 126, 0.02));
+            box-shadow: 0 20px 50px rgba(255, 225, 126, 0.1), 0 0 40px rgba(255, 225, 126, 0.05);
+            transform: translateY(-8px);
+        }
+
+        .food-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, rgba(255, 225, 126, 0.1), rgba(255, 225, 126, 0.05));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            transition: all 0.4s ease;
+            overflow: hidden;
+        }
+
+        .food-card:hover .food-image {
+            transform: scale(1.1);
+        }
+
+        .food-content {
+            padding: 30px;
+        }
+
+        .food-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--gold);
+            transition: all 0.3s ease;
+        }
+
+        .food-card:hover .food-title {
+            text-shadow: 0 0 15px rgba(255, 225, 126, 0.3);
+        }
+
+        .food-description {
+            color: var(--text-soft);
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .food-card:hover .food-description {
+            color: var(--text);
+        }
+
+        .food-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+        }
+
+        .price-tag {
+            background: rgba(255, 225, 126, 0.1);
+            color: var(--gold);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 13px;
+            transition: all 0.3s ease;
+        }
+
+        .food-card:hover .price-tag {
+            background: rgba(255, 225, 126, 0.2);
+            box-shadow: 0 0 15px rgba(255, 225, 126, 0.2);
+        }
+
+        .food-icon {
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .food-card:hover .food-icon {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            background: linear-gradient(180deg, transparent, rgba(255, 225, 126, 0.03));
+            border-top: 1px solid var(--border);
+            margin-top: 80px;
+            padding: 60px 0 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 40px;
+        }
+
+        .footer-brand h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .footer-brand:hover h3 {
+            color: var(--gold);
+        }
+
+        .footer-brand p {
+            color: var(--text-soft);
+            line-height: 1.8;
+        }
+
+        .footer-column h4 {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--gold);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .footer-column a {
+            display: block;
+            color: var(--text-soft);
+            text-decoration: none;
+            margin-bottom: 14px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            position: relative;
+            padding-left: 10px;
+        }
+
+        .footer-column a::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .footer-column a:hover {
+            color: var(--gold);
+            padding-left: 20px;
+        }
+
+        .footer-column a:hover::before {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 30px;
+            border-top: 1px solid var(--border);
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* =========================
+           PROGRESS & TOP BUTTON
+        ========================= */
+
+        #stito-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+            width: 0%;
+            z-index: 1001;
+            transition: width 0.1s ease;
+            box-shadow: 0 0 10px rgba(255, 225, 126, 0.5);
+        }
+
+        #stito-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: #101010;
+            border: none;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            opacity: 0;
+            transform: scale(0.5) translateY(20px);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 999;
+            box-shadow: 0 8px 25px rgba(255, 225, 126, 0.2);
+        }
+
+        #stito-top.is-visible {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+
+        #stito-top:hover {
+            transform: scale(1.1) translateY(-3px);
+            box-shadow: 0 12px 35px rgba(255, 225, 126, 0.35);
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .nav-links {
+                gap: 15px;
+            }
+
+            #stito-top {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header>
+
+    <div class="container">
+
+        <div class="navbar">
+
+            <a href="index_with_scroll_motion.html" class="brand">
+
+                <div class="brand-mark">
+                    <img src="stito.ico" alt="STITOU Logo" loading="lazy" decoding="async" width="42" height="42">
+                </div>
+
+                <div class="brand-text">
+                    <span class="brand-name">STITOU</span>
+                    <span class="brand-subtitle">Cuisine</span>
+                </div>
+
+            </a>
+
+            <div class="nav-links">
+
+                <a href="#appetizers">
+                    Entrées
+                </a>
+
+                <a href="#mains">
+                    Plats Principaux
+                </a>
+
+                <a href="#desserts">
+                    Desserts
+                </a>
+
+                <a href="index_with_scroll_motion.html" class="nav-back">
+                    ← Retour
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main>
+
+    <!-- =========================
+         HERO
+    ========================= -->
+
+    <section class="menu-hero">
+
+        <div class="container">
+
+            <div class="menu-hero-content">
+
+                <h1>
+                    🍲 Menu Marocain
+                </h1>
+
+                <p>
+                    Découvrez nos délicieuses spécialités de cuisine marocaine authentique
+                    <span class="menu-hero-dot"></span>
+                    Recettes traditionnelles
+                    <span class="menu-hero-dot"></span>
+                    Saveurs uniques
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- =========================
+         APPETIZERS
+    ========================= -->
+
+    <section id="appetizers">
+
+        <div class="container">
+
+            <div class="section-title" data-scroll="slide-up">
+                <h2>Entrées Délicieuses</h2>
+                <p>Les saveurs authentiques pour commencer votre repas</p>
+            </div>
+
+            <div class="food-grid">
+
+                <div class="food-card" data-scroll="scale-rotate">
+                    <div class="food-image">🥙</div>
+                    <div class="food-content">
+                        <h3 class="food-title">Briouates</h3>
+                        <p class="food-description">Pâte feuilletée dorée farcie à la viande hachée et aux épices. Savoureux et croustillant, c'est un classique incontournable.</p>
+                        <div class="food-price">
+                            <span class="price-tag">45 DH</span>
+                            <span class="food-icon">⭐</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="food-card" data-scroll="scale-rotate">
+                    <div class="food-image">🥒</div>
+                    <div class="food-content">
+                        <h3 class="food-title">Salade Marocaine</h3>
+                        <p class="food-description">Tomates, concombre, oignon rouge avec citron frais et herbes aromatiques. Fraîche et savoureuse, parfaite pour commencer.</p>
+                        <div class="food-price">
+                            <span class="price-tag">35 DH</span>
+                            <span class="food-icon">🌿</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="food-card" data-scroll="scale-rotate">
+                    <div class="food-image">🥘</div>
+                    <div class="food-content">
+                        <h3 class="food-title">Hummus Maison</h3>
+                        <p class="food-description">Pois chiches moulus, tahine, citron et ail. Crémeux et savoureux, à déguster avec du pain chaud traditionnel.</p>
+                        <div class="food-price">
+                            <span class="price-tag">40 DH</span>
+                            <span class="food-icon">✨</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="food-card" data-scroll="scale-rotate">
+                    <div class="food-image">🍜</div>
+                    <div class="food-content">
+                        <h3 class="food-title">Harira</h3>
+                        <p class="food-description">Soupe traditionnelle aux lentilles, pois chiches et tomate. Riche et réconfortante, idéale pour débuter un repas.</p>
+                        <div class="food-price">
+                            <span class="price-tag">30 DH</span>
+                            <span class="food-icon">🔥</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="food-card" data-scroll="scale-rotate">
+                    <div class="food-image">🧅</div>
+                    <div class="food-content">
+                        <h3 class="food-title">Cigares aux Crevettes</h3>
+                        <p class="food-description">Pâte croustillante farcie de crevettes et épices fines. Un délice croquant et savoureux à goûter absolument.</p>
+                        <div class="food-price">
+                            <span class="price-tag">55 DH</span>
+                            <span class="food-icon">🦐</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="food-card" data-scroll="scale-rotate">
+                    <div class="food-image">🫒</div>
+                    <div class="food-content">
+                        <h3 class="food-title">Zaalouk</h3>
+                        <p class="food-description">Aubergine et tomate revenues à l'huile d'olive avec épices. Léger et savoureux, une spécialité authentique.</p>
+                        <div class="food-price">
+                            <span class="price-tag">38 DH</span>
+                            <span class="food-icon">🍆</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- =========================
+         MAIN DISHES
+    ========================= -->
+
+    <section id="mains" style="border-top: 1px solid var(--border); padding-top: 80px;">
+
+        <div class="container">
+
+            <div class="section-title" data-scroll="slide-up">
+                <h2>Plats Principaux</h2>
+                <p>Les véritables trésors de la cuisine marocaine</p>
+            </div>
+
+            <div class="food-grid">
+
+                <div class="food-card" data-scroll="scale-rotate">
+                    <div class="food-image">🍲</div>
+                    <div class="food-content">
+                        <h3 class="food-title">Tagine d'Agneau</h3>
+                        <p class="food-description">Agneau tendre cuit lentement avec pruneaux et amandes. Sucré, savoureux et traditionnel, un plat incontournable.</p>
+                        <div class="food-price">
+                            <span class="price-tag">120 DH</span>
+                            <span class="food-icon">🏆</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="food-card" data-scroll="scale-rotate">
+                    <div class="food-image">🍛</div>
+                    <div class="food-content">
+                        <h3 class="food-title">Couscous Royal</h3>
+                        <p class="food-description">Semoule fine cuite à la vapeur, courge, pois chiches, merguez et viande. Le plat marocain par excellence.</p>
+                        <div class="food-price">
+                            <span class="price-tag">95 DH</span>
+                            <span class="food-icon">👑</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="food-card" data-scroll="scale-rotate">
+                    <div class="food-image">🐟</div>
+                    <div class="food-content">
+                        <h3 class="food-title">Tagine de Poisson</h3>
+                        <p class="food-description">Poisson frais avec tomate, oignon et épices douces. Léger et savoureux, une spécialité côtière authentique.</p>
+                        <div class="food-price">
+                            <span class="price-tag">110 DH</span>
+                            <span class="food-icon">🌊</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="food-card" data-scroll="scale-rotate">
+                    <div class="food-image">🍗</div>
+                    <div class="food-content">
+                        <h3 class="food-title">Poulet aux Olives</h3>
+                        <p class="food-description">Poulet tendre avec olives vertes et citron confit. Saveurs authentiques et délicieux arômes marinés.</p>
+                        <div class="food-price">
+                            <span class="price-tag">85 DH</span>
+                            <span class="food-icon">🍋</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="food-card" data-scroll="scale-rotate">
+                    <div class="food-image">🫓</div>
+                    <div class="food-content">
+                        <h3 class="food-title">Pastilla au Poulet</h3>
+                        <p class="food-description">Pâte feuilletée dorée garnie de poulet effiloché aux amandes et miel. Sucré-salé irrésistible et raffiné.</p>
+                        <div class="food-price">
+                            <span class="price-tag">105 DH</span>
+                            <span class="food-icon">💎</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="food-card" data-scroll="scale-rotate">
+                    <div class="food-image">🥖</div>
+                    <div class="food-content">
+                        <h3 class="food-title">Kefta Mkaouara</h3>
+                        <p class="food-description">Boules de viande hachée cuites dans une sauce tomate riche. Savoureux et parfumé, un classique délicieux.</p>
+                        <div class="food-price">
+                            <span class="price-tag">90 DH</span>
+                            <span class="food-icon">🔴</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- =========================
+         DESSERTS
+    ========================= -->
+
+    <section id="desserts" style="border-top: 1px solid var(--border); padding-top: 80px;">
+
+        <div class="container">
+
+            <div class="section-title" data-scroll="slide-up">
+                <h2>Desserts Sucrés</h2>
+                <p>Les saveurs douces pour terminer votre repas</p>
+            </div>
+
+            <div class="food-grid">
+
+                <div class="food-card" data-scroll="scale-rotate">
+                    <div class="food-image">🍯</div>
+                    <div class="food-content">
+                        <h3 class="food-title">Corne de Gazelle</h3>
+                        <p class="food-description">Pâte feuilletée dorée farcie de pâte d'amande. Croustillante dehors, tendre dedans, saupoudrée de sucre glace.</p>
+                        <div class="food-price">
+                            <span class="price-tag">50 DH</span>
+                            <span class="food-icon">🌙</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="food-card" data-scroll="scale-rotate">
+                    <div class="food-image">🍮</div>
+                    <div class="food-content">
+                        <h3 class="food-title">Baghrir</h3>
+                        <p class="food-description">Crêpe mille-trous ultra moelleuse. Servie avec miel fondu et beurre, c'est le petit-déjeuner marocain par excellence.</p>
+                        <div class="food-price">
+                            <span class="price-tag">45 DH</span>
+                            <span class="food-icon">🍯</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="food-card" data-scroll="scale-rotate">
+                    <div class="food-image">🫖</div>
+                    <div class="food-content">
+                        <h3 class="food-title">Thé Marocain</h3>
+                        <p class="food-description">Thé vert à la menthe fraîche et à la poudre de sucre. Boisson rafraîchissante et énergisante, traditionnelle.</p>
+                        <div class="food-price">
+                            <span class="price-tag">25 DH</span>
+                            <span class="food-icon">🌿</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="food-card" data-scroll="scale-rotate">
+                    <div class="food-image">🍪</div>
+                    <div class="food-content">
+                        <h3 class="food-title">Ghriba</h3>
+                        <p class="food-description">Biscuit croustillant aux amandes et noix de coco. Texture croquante et goût sucré, parfait avec le thé.</p>
+                        <div class="food-price">
+                            <span class="price-tag">40 DH</span>
+                            <span class="food-icon">🥜</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="food-card" data-scroll="scale-rotate">
+                    <div class="food-image">🍰</div>
+                    <div class="food-content">
+                        <h3 class="food-title">M'hanncha</h3>
+                        <p class="food-description">Rouleau de pâte feuilletée farci de pâte d'amande et miel. Sucré, savoureux et délicieusement croustillant.</p>
+                        <div class="food-price">
+                            <span class="price-tag">60 DH</span>
+                            <span class="food-icon">🎂</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="food-card" data-scroll="scale-rotate">
+                    <div class="food-image">🍮</div>
+                    <div class="food-content">
+                        <h3 class="food-title">Kab El Ghzel</h3>
+                        <p class="food-description">Corne de gazelle dorée remplie de pâte d'amande et de dâte. Pâtisserie raffinée traditionnelle irrésistible.</p>
+                        <div class="food-price">
+                            <span class="price-tag">55 DH</span>
+                            <span class="food-icon">✨</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <div class="container">
+
+        <div class="footer-grid">
+
+            <div class="footer-brand">
+
+                <h3>STITOU Cuisine</h3>
+
+                <p>
+                    Authentique cuisine marocaine avec les meilleures
+                    spécialités traditionnelles et saveurs uniques.
+                </p>
+
+            </div>
+
+            <div class="footer-column">
+
+                <h4>Menu</h4>
+
+                <a href="#appetizers">Entrées</a>
+                <a href="#mains">Plats Principaux</a>
+                <a href="#desserts">Desserts</a>
+
+            </div>
+
+            <div class="footer-column">
+
+                <h4>Naviguer</h4>
+
+                <a href="index_with_scroll_motion.html">Accueil</a>
+                <a href="moroccan-menu.html">Menu</a>
+
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+
+            <span>© 2026 <strong>STITOU</strong> · Cuisine Marocaine Authentique</span>
+
+            <span>Saveurs Authentiques</span>
+
+        </div>
+
+    </div>
+
+</footer>
+
+<script>
+(function () {
+    "use strict";
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    /* ---------------------------------
+       1. Advanced Scroll Animation System
+    --------------------------------- */
+    if (!reduceMotion && "IntersectionObserver" in window) {
+        const scrollElements = document.querySelectorAll("[data-scroll]");
+
+        const scrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("is-visible");
+                } else {
+                    entry.target.classList.remove("is-visible");
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        });
+
+        scrollElements.forEach((element, index) => {
+            element.style.transitionDelay = `${Math.min(index * 80, 400)}ms`;
+            scrollObserver.observe(element);
+        });
+    }
+
+    /* ---------------------------------
+       2. Reading progress + back to top
+    --------------------------------- */
+    const progress = document.createElement("div");
+    progress.id = "stito-progress";
+    document.body.prepend(progress);
+
+    const topButton = document.createElement("button");
+    topButton.id = "stito-top";
+    topButton.type = "button";
+    topButton.setAttribute("aria-label", "Retour en haut");
+    topButton.innerHTML = "↑";
+    document.body.appendChild(topButton);
+
+    let ticking = false;
+
+    function updateScrollUI() {
+        const doc = document.documentElement;
+        const maxScroll = doc.scrollHeight - doc.clientHeight;
+        const current = window.scrollY || 0;
+        const percentage = maxScroll > 0 ? (current / maxScroll) * 100 : 0;
+
+        progress.style.width = `${percentage}%`;
+        topButton.classList.toggle("is-visible", current > 600);
+
+        ticking = false;
+    }
+
+    window.addEventListener("scroll", () => {
+        if (!ticking) {
+            window.requestAnimationFrame(updateScrollUI);
+            ticking = true;
+        }
+    }, { passive: true });
+
+    topButton.addEventListener("click", () => {
+        window.scrollTo({
+            top: 0,
+            behavior: reduceMotion ? "auto" : "smooth"
+        });
+    });
+
+    updateScrollUI();
+
+    /* ---------------------------------
+       3. Header shadow on scroll
+    --------------------------------- */
+    const header = document.querySelector("header");
+    window.addEventListener("scroll", () => {
+        if (window.scrollY > 10) {
+            header.classList.add("scrolled");
+        } else {
+            header.classList.remove("scrolled");
+        }
+    }, { passive: true });
+
+    /* ---------------------------------
+       4. Mobile navigation
+    --------------------------------- */
+    const navbar = document.querySelector(".navbar");
+    const navLinks = document.querySelector(".nav-links");
+
+    if (navbar && navLinks) {
+        const toggle = document.createElement("button");
+        toggle.className = "stito-menu-toggle";
+        toggle.type = "button";
+        toggle.setAttribute("aria-label", "Ouvrir le menu");
+        toggle.setAttribute("aria-expanded", "false");
+        toggle.innerHTML = "<span></span>";
+
+        navbar.insertBefore(toggle, navLinks);
+
+        const closeMenu = () => {
+            navLinks.classList.remove("is-open");
+            toggle.classList.remove("is-open");
+            toggle.setAttribute("aria-expanded", "false");
+        };
+
+        toggle.addEventListener("click", () => {
+            const open = navLinks.classList.toggle("is-open");
+            toggle.classList.toggle("is-open", open);
+            toggle.setAttribute("aria-expanded", String(open));
+        });
+
+        navLinks.querySelectorAll("a").forEach(link => {
+            link.addEventListener("click", closeMenu);
+        });
+
+        window.addEventListener("resize", () => {
+            if (window.innerWidth > 950) closeMenu();
+        });
+    }
+
+    /* ---------------------------------
+       5. Mobile menu styles
+    --------------------------------- */
+    const style = document.createElement("style");
+    style.textContent = `
+        @media (max-width: 950px) {
+            .nav-links {
+                position: absolute;
+                top: 76px;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                gap: 0;
+                background: rgba(8, 8, 8, 0.95);
+                backdrop-filter: blur(18px);
+                border-bottom: 1px solid var(--border);
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+                z-index: 999;
+            }
+
+            .nav-links.is-open {
+                max-height: 500px;
+            }
+
+            .nav-links a {
+                padding: 16px 20px;
+                border-bottom: 1px solid var(--border-light);
+            }
+
+            .stito-menu-toggle {
+                width: 40px;
+                height: 40px;
+                border: none;
+                background: transparent;
+                cursor: pointer;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 6px;
+                margin-right: 20px;
+            }
+
+            .stito-menu-toggle span {
+                width: 24px;
+                height: 2px;
+                background: white;
+                border-radius: 2px;
+                transition: all 0.3s ease;
+            }
+
+            .stito-menu-toggle::before,
+            .stito-menu-toggle::after {
+                content: "";
+                width: 24px;
+                height: 2px;
+                background: white;
+                border-radius: 2px;
+                transition: all 0.3s ease;
+            }
+
+            .stito-menu-toggle.is-open span {
+                opacity: 0;
+            }
+
+            .stito-menu-toggle.is-open::before {
+                transform: rotate(45deg) translate(10px, 10px);
+            }
+
+            .stito-menu-toggle.is-open::after {
+                transform: rotate(-45deg) translate(7px, -7px);
+            }
+        }
+    `;
+    document.head.appendChild(style);
+
+})();
+</script>
+
+</body>
+</html>
