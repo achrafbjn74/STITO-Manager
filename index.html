@@ -59,6 +59,90 @@
     }
 
     /* =========================
+       ANIMATIONS
+    ========================= */
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-40px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes slideInRight {
+        from {
+            opacity: 0;
+            transform: translateX(40px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes scaleIn {
+        from {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    @keyframes glow {
+        0%, 100% {
+            box-shadow: 0 0 20px rgba(255, 225, 126, 0.1);
+        }
+        50% {
+            box-shadow: 0 0 40px rgba(255, 225, 126, 0.2);
+        }
+    }
+
+    @keyframes shimmer {
+        0% {
+            background-position: -1000px 0;
+        }
+        100% {
+            background-position: 1000px 0;
+        }
+    }
+
+    @keyframes float {
+        0%, 100% {
+            transform: translateY(0px);
+        }
+        50% {
+            transform: translateY(-10px);
+        }
+    }
+
+    @keyframes rotateBg {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    /* =========================
        HEADER
     ========================= */
 
@@ -66,10 +150,17 @@
         position: sticky;
         top: 0;
         z-index: 1000;
-        background: rgba(8, 8, 8, 0.88);
+        background: rgba(8, 8, 8, 0.92);
         backdrop-filter: blur(18px);
         -webkit-backdrop-filter: blur(18px);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        border-bottom: 1px solid rgba(255, 225, 126, 0.1);
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    header.scrolled {
+        border-bottom-color: rgba(255, 225, 126, 0.2);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
     }
 
     .navbar {
@@ -77,6 +168,18 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        animation: slideInDown 0.6s ease;
+    }
+
+    @keyframes slideInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     .brand {
@@ -84,27 +187,55 @@
         align-items: center;
         gap: 12px;
         text-decoration: none;
+        transition: transform 0.3s ease;
+    }
+
+    .brand:hover {
+        transform: translateY(-2px);
     }
 
     .brand-mark {
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
-    display: grid;
-    place-items: center;
-    overflow: hidden;
-    background: #ffe17e;
-    box-shadow: 0 8px 30px rgba(255, 225, 126, 0.15);
-}
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        background: #ffe17e;
+        box-shadow: 0 8px 30px rgba(255, 225, 126, 0.15);
+        transition: all 0.3s ease;
+        position: relative;
+    }
 
-.brand-mark img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    display: block;
-}
+    .brand-mark::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle, rgba(255,255,255,0.3), transparent);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
 
-    
+    .brand:hover .brand-mark {
+        box-shadow: 0 12px 40px rgba(255, 225, 126, 0.25);
+        transform: scale(1.05);
+    }
+
+    .brand:hover .brand-mark::before {
+        opacity: 1;
+    }
+
+    .brand-mark img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+        transition: transform 0.3s ease;
+    }
+
+    .brand:hover .brand-mark img {
+        transform: rotate(5deg) scale(1.1);
+    }
 
     .brand-text {
         display: flex;
@@ -116,12 +247,19 @@
         font-size: 18px;
         font-weight: 900;
         letter-spacing: 2px;
+        transition: color 0.3s ease;
+    }
+
+    .brand:hover .brand-name {
+        color: var(--gold);
+        text-shadow: 0 0 10px rgba(255, 225, 126, 0.5);
     }
 
     .brand-subtitle {
         color: var(--text-muted);
         font-size: 11px;
         margin-top: 4px;
+        transition: color 0.3s ease;
     }
 
     .nav-links {
@@ -134,11 +272,27 @@
         text-decoration: none;
         color: #a9a9a9;
         font-size: 14px;
-        transition: color 0.2s ease;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--gold);
+        transition: width 0.3s ease;
     }
 
     .nav-links a:hover {
         color: var(--gold);
+    }
+
+    .nav-links a:hover::after {
+        width: 100%;
     }
 
     .nav-download {
@@ -147,10 +301,27 @@
         padding: 11px 18px;
         border-radius: 10px;
         font-weight: 700;
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .nav-download::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: var(--gold-light);
+        transition: left 0.3s ease;
+        z-index: -1;
     }
 
     .nav-download:hover {
         background: var(--gold-light);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(255, 225, 126, 0.3);
     }
 
     /* =========================
@@ -184,6 +355,7 @@
         left: 50%;
         transform: translate(-50%, -50%);
         pointer-events: none;
+        animation: float 8s ease-in-out infinite;
     }
 
     .hero-grid {
@@ -197,6 +369,7 @@
 
     .hero-content {
         padding: 70px 0;
+        animation: slideInLeft 0.8s ease 0.1s both;
     }
 
     .eyebrow {
@@ -213,6 +386,15 @@
         letter-spacing: 1.5px;
         text-transform: uppercase;
         margin-bottom: 25px;
+        transition: all 0.3s ease;
+        animation: fadeInUp 0.8s ease 0.2s both;
+    }
+
+    .eyebrow:hover {
+        background: rgba(255, 225, 126, 0.1);
+        border-color: var(--gold);
+        box-shadow: 0 0 20px rgba(255, 225, 126, 0.2);
+        transform: translateY(-2px);
     }
 
     .eyebrow-dot {
@@ -221,6 +403,18 @@
         border-radius: 50%;
         background: var(--gold);
         box-shadow: 0 0 12px var(--gold);
+        animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            transform: scale(1);
+            box-shadow: 0 0 12px var(--gold);
+        }
+        50% {
+            transform: scale(1.2);
+            box-shadow: 0 0 20px var(--gold);
+        }
     }
 
     .hero h1 {
@@ -228,10 +422,13 @@
         line-height: 0.95;
         letter-spacing: -3px;
         margin-bottom: 22px;
+        animation: fadeInUp 0.8s ease 0.3s both;
     }
 
     .hero h1 span {
         color: var(--gold);
+        display: inline-block;
+        animation: fadeInUp 0.8s ease 0.4s both;
     }
 
     .hero-title {
@@ -239,6 +436,7 @@
         font-weight: 500;
         color: #e5e5e5;
         margin-bottom: 22px;
+        animation: fadeInUp 0.8s ease 0.35s both;
     }
 
     .hero-description {
@@ -247,6 +445,7 @@
         font-size: 18px;
         line-height: 1.8;
         margin-bottom: 34px;
+        animation: fadeInUp 0.8s ease 0.4s both;
     }
 
     .hero-actions {
@@ -254,6 +453,7 @@
         align-items: center;
         gap: 14px;
         flex-wrap: wrap;
+        animation: fadeInUp 0.8s ease 0.45s both;
     }
 
     .primary-button {
@@ -269,16 +469,33 @@
         font-size: 15px;
         font-weight: 800;
         box-shadow: 0 15px 45px rgba(255, 225, 126, 0.16);
-        transition:
-            transform 0.2s ease,
-            box-shadow 0.2s ease,
-            background 0.2s ease;
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .primary-button::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
     }
 
     .primary-button:hover {
-        transform: translateY(-3px);
+        transform: translateY(-4px) scale(1.02);
         background: var(--gold-light);
-        box-shadow: 0 20px 55px rgba(255, 225, 126, 0.25);
+        box-shadow: 0 20px 60px rgba(255, 225, 126, 0.3);
+    }
+
+    .primary-button:hover::before {
+        width: 300px;
+        height: 300px;
     }
 
     .secondary-button {
@@ -293,14 +510,29 @@
         text-decoration: none;
         font-size: 15px;
         font-weight: 600;
-        transition:
-            background 0.2s ease,
-            border-color 0.2s ease;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .secondary-button::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, transparent, rgba(255, 225, 126, 0.2), transparent);
+        transform: translateX(-100%);
+        transition: transform 0.5s ease;
     }
 
     .secondary-button:hover {
-        background: rgba(255, 255, 255, 0.06);
-        border-color: rgba(255, 225, 126, 0.25);
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 225, 126, 0.4);
+        box-shadow: 0 0 20px rgba(255, 225, 126, 0.15);
+        transform: translateY(-2px);
+    }
+
+    .secondary-button:hover::before {
+        transform: translateX(100%);
     }
 
     .hero-meta {
@@ -310,454 +542,351 @@
         color: var(--text-muted);
         font-size: 13px;
         flex-wrap: wrap;
+        animation: fadeInUp 0.8s ease 0.5s both;
     }
 
     .hero-meta span {
         display: inline-flex;
         align-items: center;
         gap: 7px;
+        transition: all 0.3s ease;
+    }
+
+    .hero-meta span:hover {
+        color: var(--gold);
+        transform: translateX(4px);
     }
 
     .hero-meta strong {
         color: #aaaaaa;
     }
 
-    /* HERO VISUAL */
-
     .hero-visual {
         position: relative;
-        min-height: 460px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        height: 500px;
+        animation: slideInRight 0.8s ease 0.2s both;
     }
 
     .dashboard-card {
+        position: absolute;
         width: 100%;
-        max-width: 490px;
-        background: linear-gradient(
-            145deg,
-            #1b1b1b,
-            #101010
-        );
-        border: 1px solid rgba(255, 225, 126, 0.16);
-        border-radius: 22px;
-        padding: 20px;
-        box-shadow:
-            0 35px 100px rgba(0, 0, 0, 0.6),
-            0 0 70px rgba(255, 225, 126, 0.06);
-        transform: perspective(1000px) rotateY(-5deg) rotateX(2deg);
-    }
-
-    .dashboard-top {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 20px;
-    }
-
-    .window-dots {
-        display: flex;
-        gap: 6px;
-    }
-
-    .window-dots span {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: #444444;
-    }
-
-    .dashboard-title {
-        font-size: 12px;
-        color: #999999;
-    }
-
-    .dashboard-brand {
-        font-size: 20px;
-        font-weight: 900;
-        letter-spacing: 2px;
-        color: var(--gold);
-        margin-bottom: 4px;
-    }
-
-    .dashboard-subtitle {
-        font-size: 11px;
-        color: #666666;
-        margin-bottom: 20px;
-    }
-
-    .dashboard-grid {
+        height: 100%;
+        background: linear-gradient(135deg, rgba(255, 225, 126, 0.1), rgba(255, 225, 126, 0.05));
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        backdrop-filter: blur(10px);
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
+        place-items: center;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s ease;
+        animation: float 6s ease-in-out infinite;
     }
 
-    .dashboard-item {
-        min-height: 88px;
-        padding: 15px;
-        background: #151515;
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        border-radius: 12px;
+    .dashboard-card:hover {
+        box-shadow: 0 35px 70px rgba(255, 225, 126, 0.15);
+        border-color: rgba(255, 225, 126, 0.3);
     }
 
-    .dashboard-item-icon {
-        font-size: 19px;
-        margin-bottom: 7px;
+    .dashboard-content {
+        text-align: center;
+        opacity: 0.8;
+        transition: all 0.3s ease;
     }
 
-    .dashboard-item-title {
-        font-size: 12px;
-        color: #dddddd;
-    }
-
-    .dashboard-item-value {
-        color: var(--gold);
-        font-size: 11px;
-        margin-top: 4px;
+    .dashboard-card:hover .dashboard-content {
+        opacity: 1;
+        transform: scale(1.02);
     }
 
     /* =========================
-       TRUST BAR
+       FEATURE CARDS
     ========================= */
 
-    .trust-bar {
-        border-top: 1px solid var(--border-light);
-        border-bottom: 1px solid var(--border-light);
-        background: #0c0c0c;
+    .feature-card {
+        padding: 40px;
+        border: 1px solid var(--border);
+        background: linear-gradient(135deg, rgba(255, 225, 126, 0.04), transparent);
+        border-radius: var(--radius);
+        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        position: relative;
+        overflow: hidden;
+        opacity: 0;
+        animation: fadeInUp 0.8s ease both;
     }
 
-    .trust-grid {
-        min-height: 100px;
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 20px;
-        align-items: center;
+    .feature-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at top right, rgba(255, 225, 126, 0.1), transparent);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        z-index: 1;
     }
+
+    .feature-card:hover {
+        border-color: rgba(255, 225, 126, 0.3);
+        background: linear-gradient(135deg, rgba(255, 225, 126, 0.1), rgba(255, 225, 126, 0.02));
+        box-shadow: 0 20px 50px rgba(255, 225, 126, 0.1), 0 0 40px rgba(255, 225, 126, 0.05);
+        transform: translateY(-8px);
+    }
+
+    .feature-card:hover::before {
+        opacity: 1;
+    }
+
+    .feature-icon {
+        font-size: 48px;
+        margin-bottom: 16px;
+        display: inline-block;
+        transition: all 0.4s ease;
+        animation: float 6s ease-in-out infinite;
+    }
+
+    .feature-card:hover .feature-icon {
+        transform: scale(1.15) rotate(5deg);
+        filter: drop-shadow(0 0 15px rgba(255, 225, 126, 0.4));
+    }
+
+    .feature-card h3 {
+        font-size: 22px;
+        margin-bottom: 12px;
+        transition: color 0.3s ease;
+    }
+
+    .feature-card:hover h3 {
+        color: var(--gold);
+        text-shadow: 0 0 15px rgba(255, 225, 126, 0.3);
+    }
+
+    .feature-card p {
+        color: var(--text-soft);
+        line-height: 1.7;
+        transition: color 0.3s ease;
+    }
+
+    .feature-card:hover p {
+        color: var(--text);
+    }
+
+    /* =========================
+       TRUST ITEMS
+    ========================= */
 
     .trust-item {
-        text-align: center;
-        color: #8d8d8d;
-        font-size: 13px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 12px 16px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--border-light);
+        transition: all 0.3s ease;
+        opacity: 0;
+        animation: fadeInUp 0.6s ease both;
     }
 
-    .trust-item strong {
-        display: block;
-        color: #e2e2e2;
-        font-size: 16px;
-        margin-bottom: 3px;
+    .trust-item:hover {
+        background: rgba(255, 225, 126, 0.08);
+        border-color: rgba(255, 225, 126, 0.2);
+        transform: translateX(8px);
+        box-shadow: 0 8px 20px rgba(255, 225, 126, 0.1);
+    }
+
+    .trust-icon {
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: all 0.3s ease;
+    }
+
+    .trust-item:hover .trust-icon {
+        transform: scale(1.2) rotate(10deg);
+        filter: drop-shadow(0 0 8px rgba(255, 225, 126, 0.5));
     }
 
     /* =========================
        SECTIONS
     ========================= */
 
-    section:not(.hero) {
-        scroll-margin-top: 90px;
-    }
-
-    .section {
-        padding: 100px 0;
+    section {
+        scroll-margin-top: 100px;
     }
 
     .section-header {
-        max-width: 720px;
-        margin: 0 auto 55px;
         text-align: center;
+        margin-bottom: 60px;
+        opacity: 0;
+        animation: fadeInUp 0.8s ease both;
     }
 
-    .section-label {
-        color: var(--gold);
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        font-size: 12px;
-        font-weight: 800;
-        margin-bottom: 12px;
-    }
-
-    .section-title {
-        font-size: clamp(30px, 5vw, 48px);
-        line-height: 1.15;
+    .section-header h2 {
+        font-size: clamp(36px, 6vw, 56px);
         margin-bottom: 16px;
-        letter-spacing: -1px;
+        background: linear-gradient(135deg, var(--text), var(--gold));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        transition: all 0.4s ease;
     }
 
-    .section-description {
-        color: var(--text-muted);
-        font-size: 16px;
-        line-height: 1.8;
+    .section-header:hover h2 {
+        filter: drop-shadow(0 0 20px rgba(255, 225, 126, 0.2));
     }
 
-    /* =========================
-       FEATURES
-    ========================= */
-
-    .features-section {
-        background: var(--bg-soft);
+    .section-header p {
+        color: var(--text-soft);
+        font-size: 18px;
+        max-width: 600px;
+        margin: 0 auto;
+        transition: color 0.3s ease;
     }
 
-    .feature-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 18px;
-    }
-
-    .feature-card {
-        position: relative;
-        padding: 30px;
-        min-height: 230px;
-        background: var(--surface);
-        border: 1px solid var(--border-light);
-        border-radius: var(--radius);
-        overflow: hidden;
-        transition:
-            transform 0.25s ease,
-            border-color 0.25s ease,
-            background 0.25s ease;
-    }
-
-    .feature-card::before {
-        content: "";
-        position: absolute;
-        width: 140px;
-        height: 140px;
-        background: rgba(255, 225, 126, 0.05);
-        border-radius: 50%;
-        filter: blur(35px);
-        right: -60px;
-        top: -60px;
-    }
-
-    .feature-card:hover {
-        transform: translateY(-6px);
-        border-color: rgba(255, 225, 126, 0.25);
-        background: #151515;
-    }
-
-    .feature-icon {
-        position: relative;
-        width: 48px;
-        height: 48px;
-        display: grid;
-        place-items: center;
-        border-radius: 13px;
-        background: rgba(255, 225, 126, 0.08);
-        border: 1px solid rgba(255, 225, 126, 0.13);
-        font-size: 22px;
-        margin-bottom: 22px;
-    }
-
-    .feature-card h3 {
-        position: relative;
-        font-size: 19px;
-        margin-bottom: 10px;
-    }
-
-    .feature-card p {
-        position: relative;
-        color: #858585;
-        font-size: 14px;
-        line-height: 1.7;
+    .section-header:hover p {
+        color: var(--text);
     }
 
     /* =========================
-       ABOUT
+       ABOUT PANELS
     ========================= */
-
-    .about-grid {
-        display: grid;
-        grid-template-columns: 0.9fr 1.1fr;
-        gap: 70px;
-        align-items: center;
-    }
 
     .about-panel {
-        background:
-            radial-gradient(
-                circle at 30% 20%,
-                rgba(255, 225, 126, 0.10),
-                transparent 35%
-            ),
-            #111111;
         border: 1px solid var(--border);
-        border-radius: 22px;
-        padding: 42px;
-        min-height: 390px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+        border-radius: var(--radius);
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        opacity: 0;
+        animation: fadeInUp 0.8s ease both;
     }
 
-    .about-logo {
-        font-size: 54px;
-        font-weight: 900;
-        letter-spacing: 7px;
+    .about-panel:hover {
+        border-color: rgba(255, 225, 126, 0.3);
+        box-shadow: 0 20px 50px rgba(255, 225, 126, 0.1);
+        transform: translateY(-8px);
+    }
+
+    .panel-header {
+        padding: 24px;
+        background: linear-gradient(135deg, rgba(255, 225, 126, 0.08), transparent);
+        border-bottom: 1px solid var(--border);
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .about-panel:hover .panel-header {
+        background: linear-gradient(135deg, rgba(255, 225, 126, 0.15), transparent);
+    }
+
+    .panel-header h3 {
+        font-size: 20px;
+        transition: all 0.3s ease;
+    }
+
+    .about-panel:hover .panel-header h3 {
         color: var(--gold);
-        margin-bottom: 8px;
     }
 
-    .about-panel p {
-        color: #8c8c8c;
-        line-height: 1.8;
+    .panel-content {
+        padding: 24px;
+        opacity: 0.8;
+        transition: all 0.3s ease;
     }
 
-    .about-list {
-        display: grid;
-        gap: 22px;
+    .about-panel:hover .panel-content {
+        opacity: 1;
     }
 
     .about-item {
-        display: flex;
-        gap: 16px;
+        padding: 16px;
+        margin-bottom: 12px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.03);
+        border-left: 3px solid transparent;
+        transition: all 0.3s ease;
+        opacity: 0;
+        animation: slideInLeft 0.6s ease both;
     }
 
-    .check {
-        flex: 0 0 auto;
-        width: 30px;
-        height: 30px;
-        border-radius: 9px;
-        display: grid;
-        place-items: center;
-        background: rgba(255, 225, 126, 0.10);
+    .about-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .about-item:hover {
+        background: rgba(255, 225, 126, 0.08);
+        border-left-color: var(--gold);
+        transform: translateX(8px);
+        box-shadow: 0 8px 20px rgba(255, 225, 126, 0.1);
+    }
+
+    .about-item strong {
         color: var(--gold);
-        font-weight: 900;
+        transition: all 0.3s ease;
     }
 
-    .about-item h3 {
-        font-size: 17px;
-        margin-bottom: 4px;
-    }
-
-    .about-item p {
-        color: #777777;
-        font-size: 14px;
-        line-height: 1.6;
+    .about-item:hover strong {
+        text-shadow: 0 0 10px rgba(255, 225, 126, 0.4);
     }
 
     /* =========================
        SCREENSHOTS
     ========================= */
 
-    .screenshots-section {
-        background: var(--bg-soft);
-    }
-
-    .screenshots-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 18px;
-    }
-
     .screenshot-placeholder {
-        min-height: 260px;
-        border-radius: 18px;
-        border: 1px dashed rgba(255, 225, 126, 0.20);
-        background:
-            linear-gradient(
-                135deg,
-                rgba(255, 225, 126, 0.045),
-                rgba(255, 255, 255, 0.015)
-            );
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        color: #666666;
-        padding: 25px;
+        aspect-ratio: 16 / 10;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background: linear-gradient(135deg, rgba(255, 225, 126, 0.05), rgba(255, 225, 126, 0.02));
+        display: grid;
+        place-items: center;
+        transition: all 0.4s ease;
+        opacity: 0;
+        animation: fadeInUp 0.8s ease both;
     }
 
-    .screenshot-placeholder span {
-        font-size: 36px;
-        margin-bottom: 12px;
+    .screenshot-placeholder:hover {
+        border-color: rgba(255, 225, 126, 0.3);
+        box-shadow: 0 20px 50px rgba(255, 225, 126, 0.1);
+        transform: scale(1.02) translateY(-4px);
     }
 
     .screenshot-placeholder strong {
-        color: #999999;
-        font-size: 14px;
-    }
-
-    .screenshot-placeholder small {
-        margin-top: 6px;
-        font-size: 12px;
-    }
-
-    /* =========================
-       CTA
-    ========================= */
-
-    .cta {
-        padding: 100px 0;
-    }
-
-    .cta-box {
-        position: relative;
-        overflow: hidden;
+        color: var(--text-soft);
         text-align: center;
-        padding: 75px 30px;
-        border-radius: 26px;
-        border: 1px solid rgba(255, 225, 126, 0.18);
-        background:
-            radial-gradient(
-                circle at 50% 0%,
-                rgba(255, 225, 126, 0.12),
-                transparent 45%
-            ),
-            #111111;
-    }
-
-    .cta-box h2 {
-        font-size: clamp(32px, 5vw, 52px);
-        margin-bottom: 15px;
-    }
-
-    .cta-box p {
-        max-width: 620px;
-        margin: 0 auto 30px;
-        color: #858585;
-    }
-
-    .cta-version {
-        color: #666666;
-        font-size: 12px;
-        margin-top: 14px;
     }
 
     /* =========================
        REQUIREMENTS
     ========================= */
 
-    .requirements {
-        padding-top: 0;
-    }
-
-    .requirements-box {
-        max-width: 800px;
-        margin: auto;
-        padding: 35px;
-        border-radius: 18px;
-        background: var(--surface);
-        border: 1px solid var(--border-light);
-    }
-
-    .requirements-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 14px;
-    }
-
     .requirement {
-        padding: 16px;
+        padding: 18px;
         border-radius: 12px;
-        background: #171717;
-        color: #999999;
-        font-size: 14px;
+        background: linear-gradient(135deg, rgba(255, 225, 126, 0.06), transparent);
+        border: 1px solid var(--border);
+        transition: all 0.3s ease;
+        opacity: 0;
+        animation: fadeInUp 0.6s ease both;
+    }
+
+    .requirement:hover {
+        background: linear-gradient(135deg, rgba(255, 225, 126, 0.12), transparent);
+        border-color: rgba(255, 225, 126, 0.3);
+        transform: translateX(8px);
+        box-shadow: 0 8px 20px rgba(255, 225, 126, 0.1);
     }
 
     .requirement strong {
+        color: var(--gold);
         display: block;
-        color: #dddddd;
-        margin-bottom: 3px;
+        margin-bottom: 6px;
+        transition: all 0.3s ease;
+    }
+
+    .requirement:hover strong {
+        text-shadow: 0 0 10px rgba(255, 225, 126, 0.4);
     }
 
     /* =========================
@@ -765,590 +894,288 @@
     ========================= */
 
     footer {
-        border-top: 1px solid var(--border-light);
-        background: #060606;
-        padding: 45px 0 25px;
+        background: linear-gradient(180deg, transparent, rgba(255, 225, 126, 0.03));
+        border-top: 1px solid var(--border);
+        margin-top: 80px;
+        padding: 60px 0 30px;
+        transition: all 0.3s ease;
+    }
+
+    footer:hover {
+        border-top-color: rgba(255, 225, 126, 0.2);
     }
 
     .footer-grid {
         display: grid;
-        grid-template-columns: 1.5fr 1fr 1fr;
-        gap: 40px;
-        padding-bottom: 35px;
-    }
-
-    .footer-brand {
-        max-width: 360px;
+        grid-template-columns: 2fr 1fr 1fr;
+        gap: 60px;
+        margin-bottom: 40px;
     }
 
     .footer-brand h3 {
+        font-size: 20px;
+        margin-bottom: 12px;
+        transition: all 0.3s ease;
+    }
+
+    .footer-brand:hover h3 {
         color: var(--gold);
-        font-size: 22px;
-        letter-spacing: 3px;
-        margin-bottom: 10px;
     }
 
     .footer-brand p {
-        color: #666666;
-        font-size: 13px;
-        line-height: 1.7;
+        color: var(--text-soft);
+        line-height: 1.8;
     }
 
     .footer-column h4 {
-        font-size: 13px;
-        color: #dddddd;
-        margin-bottom: 15px;
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        color: var(--gold);
+        letter-spacing: 1px;
+        text-transform: uppercase;
     }
 
     .footer-column a {
         display: block;
-        color: #666666;
+        color: var(--text-soft);
         text-decoration: none;
-        font-size: 13px;
-        margin-bottom: 9px;
+        margin-bottom: 14px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        position: relative;
+        padding-left: 10px;
+    }
+
+    .footer-column a::before {
+        content: "→";
+        position: absolute;
+        left: 0;
+        opacity: 0;
+        transform: translateX(-10px);
+        transition: all 0.3s ease;
     }
 
     .footer-column a:hover {
         color: var(--gold);
+        padding-left: 20px;
+    }
+
+    .footer-column a:hover::before {
+        opacity: 1;
+        transform: translateX(0);
     }
 
     .footer-bottom {
-        padding-top: 22px;
-        border-top: 1px solid rgba(255, 255, 255, 0.05);
         display: flex;
         justify-content: space-between;
-        gap: 15px;
-        color: #555555;
-        font-size: 12px;
+        align-items: center;
+        padding-top: 30px;
+        border-top: 1px solid var(--border);
+        font-size: 13px;
+        color: var(--text-muted);
+        transition: all 0.3s ease;
     }
 
-    .footer-bottom strong {
-        color: var(--gold);
+    .footer-bottom:hover {
+        color: var(--text-soft);
     }
-
-
-/* =========================
-   STITOU MOTION SYSTEM
-========================= */
-
-:root {
-    --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-@keyframes stitoFadeUp {
-    from { opacity: 0; transform: translate3d(0, 28px, 0); }
-    to   { opacity: 1; transform: translate3d(0, 0, 0); }
-}
-
-@keyframes stitoFadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-}
-
-@keyframes stitoFloat {
-    0%, 100% { transform: translateY(0) rotateZ(0deg); }
-    50% { transform: translateY(-10px) rotateZ(0.35deg); }
-}
-
-@keyframes stitoPulse {
-    0%, 100% { opacity: .65; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.18); }
-}
-
-@keyframes stitoShimmer {
-    0% { transform: translateX(-120%); }
-    100% { transform: translateX(120%); }
-}
-
-@keyframes stitoGlow {
-    0%, 100% { box-shadow: 0 0 0 rgba(255,225,126,0); }
-    50% { box-shadow: 0 0 32px rgba(255,225,126,.13); }
-}
-
-/* Initial state for scroll-reveal elements */
-.motion-reveal {
-    opacity: 0;
-    transform: translate3d(0, 34px, 0);
-    transition:
-        opacity .8s var(--motion-ease),
-        transform .8s var(--motion-ease);
-    will-change: opacity, transform;
-}
-
-.motion-reveal.is-visible {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-}
-
-/* Hero entrance */
-.hero .eyebrow {
-    animation: stitoFadeUp .75s var(--motion-ease) both;
-}
-
-.hero h1 {
-    animation: stitoFadeUp .85s .08s var(--motion-ease) both;
-}
-
-.hero .hero-title {
-    animation: stitoFadeUp .85s .16s var(--motion-ease) both;
-}
-
-.hero .hero-description {
-    animation: stitoFadeUp .85s .24s var(--motion-ease) both;
-}
-
-.hero .hero-actions {
-    animation: stitoFadeUp .85s .32s var(--motion-ease) both;
-}
-
-.hero .hero-meta {
-    animation: stitoFadeUp .85s .40s var(--motion-ease) both;
-}
-
-.hero-visual {
-    animation: stitoFadeIn 1s .18s ease both;
-}
-
-.dashboard-card {
-    animation: stitoFloat 6s ease-in-out infinite, stitoGlow 4s ease-in-out infinite;
-    transform-style: preserve-3d;
-    will-change: transform;
-}
-
-.eyebrow-dot {
-    animation: stitoPulse 2s ease-in-out infinite;
-}
-
-/* Cards become progressively visible */
-.feature-card,
-.dashboard-item,
-.about-item,
-.screenshot-placeholder,
-.requirement,
-.trust-item {
-    transition:
-        transform .35s var(--motion-ease),
-        opacity .35s ease,
-        border-color .25s ease,
-        background .25s ease,
-        box-shadow .35s ease;
-}
-
-.feature-card:hover {
-    box-shadow: 0 20px 50px rgba(0,0,0,.28);
-}
-
-.dashboard-item:hover {
-    transform: translateY(-4px) scale(1.015);
-    border-color: rgba(255,225,126,.20);
-    background: #191919;
-}
-
-.screenshot-placeholder {
-    position: relative;
-    overflow: hidden;
-}
-
-.screenshot-placeholder::after,
-.feature-card::after,
-.cta-box::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: linear-gradient(
-        110deg,
-        transparent 25%,
-        rgba(255,225,126,.055) 50%,
-        transparent 75%
-    );
-    transform: translateX(-120%);
-}
-
-.screenshot-placeholder:hover::after,
-.feature-card:hover::after,
-.cta-box:hover::after {
-    animation: stitoShimmer .9s ease;
-}
-
-.primary-button,
-.secondary-button,
-.nav-download {
-    position: relative;
-    overflow: hidden;
-}
-
-.primary-button::after,
-.nav-download::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: -35%;
-    width: 25%;
-    transform: skewX(-18deg);
-    background: rgba(255,255,255,.35);
-    transition: left .55s ease;
-}
-
-.primary-button:hover::after,
-.nav-download:hover::after {
-    left: 125%;
-}
-
-.about-panel {
-    transition:
-        transform .45s var(--motion-ease),
-        box-shadow .45s ease,
-        border-color .3s ease;
-}
-
-.about-panel:hover {
-    transform: translateY(-5px);
-    border-color: rgba(255,225,126,.24);
-    box-shadow: 0 28px 70px rgba(0,0,0,.28);
-}
-
-.check {
-    transition: transform .3s var(--motion-ease), box-shadow .3s ease;
-}
-
-.about-item:hover .check {
-    transform: scale(1.1) rotate(4deg);
-    box-shadow: 0 0 22px rgba(255,225,126,.12);
-}
-
-.cta-box {
-    transition: transform .45s var(--motion-ease), border-color .3s ease;
-}
-
-.cta-box:hover {
-    transform: translateY(-4px);
-    border-color: rgba(255,225,126,.28);
-}
-
-/* Active navigation while scrolling */
-.nav-links a[data-active="true"]:not(.nav-download) {
-    color: var(--gold);
-}
-
-/* Reading progress */
-#stito-progress {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
-    z-index: 2000;
-    background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light));
-    box-shadow: 0 0 12px rgba(255,225,126,.45);
-    pointer-events: none;
-}
-
-/* Back to top */
-#stito-top {
-    position: fixed;
-    right: 22px;
-    bottom: 22px;
-    width: 44px;
-    height: 44px;
-    border: 1px solid rgba(255,225,126,.22);
-    border-radius: 50%;
-    background: rgba(18,18,18,.86);
-    color: var(--gold);
-    display: grid;
-    place-items: center;
-    font-size: 18px;
-    cursor: pointer;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(12px);
-    transition:
-        opacity .3s ease,
-        visibility .3s ease,
-        transform .3s var(--motion-ease),
-        background .25s ease;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-}
-
-#stito-top.is-visible {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-#stito-top:hover {
-    background: rgba(255,225,126,.10);
-    transform: translateY(-3px);
-}
-
-/* Mobile menu button */
-.stito-menu-toggle {
-    display: none;
-    width: 42px;
-    height: 42px;
-    border: 1px solid rgba(255,255,255,.09);
-    border-radius: 11px;
-    background: rgba(255,255,255,.025);
-    color: #fff;
-    cursor: pointer;
-    font-size: 20px;
-    transition: background .25s ease, border-color .25s ease;
-}
-
-.stito-menu-toggle:hover {
-    background: rgba(255,225,126,.08);
-    border-color: rgba(255,225,126,.22);
-}
-
-.stito-menu-toggle span,
-.stito-menu-toggle span::before,
-.stito-menu-toggle span::after {
-    display: block;
-    width: 19px;
-    height: 2px;
-    margin: auto;
-    background: currentColor;
-    border-radius: 2px;
-    transition: transform .3s ease, opacity .2s ease;
-    content: "";
-}
-
-.stito-menu-toggle span::before {
-    transform: translateY(-6px);
-}
-
-.stito-menu-toggle span::after {
-    transform: translateY(4px);
-}
-
-.stito-menu-toggle.is-open span {
-    transform: rotate(45deg);
-}
-
-.stito-menu-toggle.is-open span::before {
-    transform: translateY(0) rotate(90deg);
-}
-
-.stito-menu-toggle.is-open span::after {
-    opacity: 0;
-}
-
-@media (max-width: 950px) {
-    .stito-menu-toggle {
-        display: block;
-    }
-
-    .nav-links {
-        position: absolute;
-        top: calc(100% + 1px);
-        left: 0;
-        right: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 4px;
-        padding: 12px 4%;
-        background: rgba(8,8,8,.97);
-        border-bottom: 1px solid rgba(255,255,255,.07);
-        box-shadow: 0 20px 40px rgba(0,0,0,.35);
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(-10px);
-        transition:
-            opacity .3s ease,
-            visibility .3s ease,
-            transform .3s var(--motion-ease);
-    }
-
-    .nav-links.is-open {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-    }
-
-    .nav-links a,
-    .nav-links a:not(.nav-download) {
-        display: block;
-        padding: 12px 14px;
-        border-radius: 9px;
-    }
-
-    .nav-links a:hover {
-        background: rgba(255,225,126,.06);
-    }
-
-    .nav-download {
-        text-align: center;
-        margin-top: 4px;
-    }
-}
-
-/* Reduced motion accessibility */
-@media (prefers-reduced-motion: reduce) {
-    html {
-        scroll-behavior: auto;
-    }
-
-    *,
-    *::before,
-    *::after {
-        animation-duration: .01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: .01ms !important;
-    }
-
-    .motion-reveal {
-        opacity: 1 !important;
-        transform: none !important;
-    }
-}
 
     /* =========================
-       MOBILE
+       PROGRESS & TOP BUTTON
+    ========================= */
+
+    #stito-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+        width: 0%;
+        z-index: 1001;
+        transition: width 0.1s ease;
+        box-shadow: 0 0 10px rgba(255, 225, 126, 0.5);
+    }
+
+    #stito-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+        color: #101010;
+        border: none;
+        font-size: 24px;
+        font-weight: bold;
+        cursor: pointer;
+        opacity: 0;
+        transform: scale(0.5) translateY(20px);
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        z-index: 999;
+        box-shadow: 0 8px 25px rgba(255, 225, 126, 0.2);
+    }
+
+    #stito-top.is-visible {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+
+    #stito-top:hover {
+        transform: scale(1.1) translateY(-3px);
+        box-shadow: 0 12px 35px rgba(255, 225, 126, 0.35);
+        background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    }
+
+    #stito-top:active {
+        transform: scale(1.05) translateY(-1px);
+    }
+
+    /* =========================
+       MOBILE MENU
     ========================= */
 
     @media (max-width: 950px) {
+        .nav-links {
+            position: absolute;
+            top: 76px;
+            left: 0;
+            right: 0;
+            flex-direction: column;
+            gap: 0;
+            background: rgba(8, 8, 8, 0.95);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            z-index: 999;
+        }
 
-        .nav-links a:not(.nav-download) {
+        .nav-links.is-open {
+            max-height: 500px;
+            animation: slideDown 0.4s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .nav-links a {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .nav-links a::after {
             display: none;
         }
 
-        .hero-grid {
-            grid-template-columns: 1fr;
-            gap: 25px;
-        }
-
-        .hero-content {
-            text-align: center;
-            padding-bottom: 20px;
-        }
-
-        .hero-description {
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .hero-actions {
+        .stito-menu-toggle {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
             justify-content: center;
+            align-items: center;
+            gap: 6px;
+            margin-right: 20px;
         }
 
-        .hero-meta {
-            justify-content: center;
+        .stito-menu-toggle span {
+            width: 24px;
+            height: 2px;
+            background: var(--text);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+            display: block;
         }
 
-        .hero-visual {
-            min-height: 390px;
+        .stito-menu-toggle::before,
+        .stito-menu-toggle::after {
+            content: "";
+            width: 24px;
+            height: 2px;
+            background: var(--text);
+            border-radius: 2px;
+            transition: all 0.3s ease;
         }
 
-        .dashboard-card {
-            transform: none;
+        .stito-menu-toggle.is-open span {
+            opacity: 0;
         }
 
-        .feature-grid {
-            grid-template-columns: repeat(2, 1fr);
+        .stito-menu-toggle.is-open::before {
+            transform: rotate(45deg) translate(10px, 10px);
         }
 
-        .about-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .screenshots-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .footer-grid {
-            grid-template-columns: 1fr 1fr;
+        .stito-menu-toggle.is-open::after {
+            transform: rotate(-45deg) translate(7px, -7px);
         }
     }
 
-    @media (max-width: 650px) {
+    /* =========================
+       MOTION REVEAL
+    ========================= */
 
-        .navbar {
-            height: 68px;
-        }
+    .motion-reveal {
+        opacity: 0;
+        animation: fadeInUp 0.6s ease forwards;
+    }
 
-        .brand-subtitle {
-            display: none;
-        }
+    /* =========================
+       RESPONSIVE
+    ========================= */
 
-        .hero {
-            min-height: auto;
-        }
-
-        .hero-content {
-            padding: 70px 0 35px;
-        }
-
-        .hero h1 {
-            font-size: 58px;
-            letter-spacing: -2px;
-        }
-
-        .hero-title {
-            font-size: 25px;
-        }
-
-        .hero-description {
-            font-size: 15px;
-        }
-
-        .hero-actions {
-            flex-direction: column;
-        }
-
-        .primary-button,
-        .secondary-button {
-            width: 100%;
-            max-width: 360px;
+    @media (max-width: 768px) {
+        .hero-grid {
+            grid-template-columns: 1fr;
+            gap: 40px;
         }
 
         .hero-visual {
-            min-height: 340px;
-            padding-bottom: 50px;
-        }
-
-        .dashboard-card {
-            max-width: 100%;
-        }
-
-        .trust-grid {
-            grid-template-columns: repeat(2, 1fr);
-            padding: 20px 0;
-        }
-
-        .feature-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .section {
-            padding: 75px 0;
-        }
-
-        .about-panel {
-            padding: 30px;
-        }
-
-        .about-logo {
-            font-size: 42px;
-        }
-
-        .requirements-grid {
-            grid-template-columns: 1fr;
+            height: 300px;
+            margin-top: 30px;
         }
 
         .footer-grid {
             grid-template-columns: 1fr;
+            gap: 40px;
         }
 
         .footer-bottom {
             flex-direction: column;
+            gap: 20px;
             text-align: center;
         }
-    }
-</style>
 
+        #stito-top {
+            bottom: 20px;
+            right: 20px;
+            width: 45px;
+            height: 45px;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        * {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
+
+</style>
 
 </head>
 
@@ -1359,216 +1186,134 @@
 ========================= -->
 
 <header>
+
     <div class="container">
-        <nav class="navbar">
 
+        <div class="navbar">
 
-        <a href="#" class="brand">
+            <a href="#" class="brand">
 
-            <div class="brand-mark">
-                <img src="stito.ico" alt="STITOU">
+                <div class="brand-mark">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%23101010' width='100' height='100'/%3E%3Ctext x='50' y='60' font-size='60' font-weight='bold' fill='%23101010' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E" alt="STITOU">
+                </div>
+
+                <div class="brand-text">
+                    <span class="brand-name">STITOU</span>
+                    <span class="brand-subtitle">Manager</span>
+                </div>
+
+            </a>
+
+            <div class="nav-links">
+
+                <a href="#fonctionnalites">
+                    Fonctionnalités
+                </a>
+
+                <a href="#solution">
+                    Solution
+                </a>
+
+                <a href="#configuration">
+                    Configuration
+                </a>
+
+                <a href="https://github.com/achrafbjn74/STITO-Manager/releases/download/v2.4.3/STITOU.Manager-2.4.3.exe" class="nav-download">
+                    ↓ Télécharger
+                </a>
+
             </div>
-
-            <div class="brand-text">
-                <span class="brand-name">STITOU</span>
-                <span class="brand-subtitle">Gestion Restaurant</span>
-            </div>
-
-        </a>
-
-        <div class="nav-links">
-
-            <a href="#fonctionnalites">
-                Fonctionnalités
-            </a>
-
-            <a href="#solution">
-                Solution
-            </a>
-
-            <a href="#configuration">
-                Configuration
-            </a>
-
-            <a
-                class="nav-download"
-                href="https://github.com/achrafbjn74/STITO-Manager/releases/download/v2.4.3/STITOU.Manager-2.4.3.exe">
-
-                Télécharger
-
-            </a>
 
         </div>
 
-    </nav>
-</div>
-
+    </div>
 
 </header>
 
+<!-- =========================
+     MAIN
+========================= -->
+
 <main>
 
-<!-- =========================
-     HERO
-========================= -->
+    <!-- =========================
+         HERO
+    ========================= -->
 
-<section class="hero">
+    <section class="hero">
 
+        <div class="container">
 
-<div class="container">
+            <div class="hero-grid">
 
-    <div class="hero-grid">
+                <div class="hero-content">
 
-        <div class="hero-content">
+                    <span class="eyebrow">
+                        <span class="eyebrow-dot"></span>
+                        SOLUTION POUR RESTAURANTS
+                    </span>
 
-            <div class="eyebrow">
-                <span class="eyebrow-dot"></span>
-                Solution professionnelle
-            </div>
+                    <h1>
+                        STITOU
+                        <span>Manager</span>
+                    </h1>
 
-            <h1>
-                STIT<span>OU</span>
-            </h1>
+                    <p class="hero-title">
+                        Gestion complète et centralisée
+                    </p>
 
-            <div class="hero-title">
-                Votre restaurant. Simplifié.
-            </div>
+                    <p class="hero-description">
+                        Solution professionnelle tout-en-un pour restaurants. Gérez vos employés,
+                        votre stock, vos fournisseurs, vos salaires et vos finances en un seul endroit.
+                        Synchronisation Firebase pour une accessibilité maximale.
+                    </p>
 
-            <p class="hero-description">
-                STITOU Manager centralise la gestion de votre restaurant
-                dans une seule application moderne : employés, stock,
-                fournisseurs, salaires, avances, crédits, finances
-                et historique.
-            </p>
+                    <div class="hero-actions">
 
-            <div class="hero-actions">
+                        <a href="https://github.com/achrafbjn74/STITO-Manager/releases/download/v2.4.3/STITOU.Manager-2.4.3.exe" class="primary-button">
+                            ↓ Télécharger Gratuitement
+                        </a>
 
-                <a
-                    class="primary-button"
-                    href="https://github.com/achrafbjn74/STITO-Manager/releases/download/v2.4.3/STITOU.Manager-2.4.3.exe">
+                        <a href="#fonctionnalites" class="secondary-button">
+                            Découvrir →
+                        </a>
 
-                    <span>↓</span>
-                    Télécharger pour Windows
-
-                </a>
-
-                <a
-                    class="secondary-button"
-                    href="#fonctionnalites">
-
-                    Découvrir STITOU
-
-                </a>
-
-            </div>
-
-            <div class="hero-meta">
-
-                <span>
-                    ✓ <strong>Windows 10 / 11</strong>
-                </span>
-
-                <span>
-                    ✓ <strong>64 bits</strong>
-                </span>
-
-                <span>
-                    ✓ <strong>Version 2.4.3</strong>
-                </span>
-
-            </div>
-
-        </div>
-
-
-        <!-- APP PREVIEW -->
-
-        <div class="hero-visual">
-
-            <div class="dashboard-card">
-
-                <div class="dashboard-top">
-
-                    <div class="window-dots">
-                        <span></span>
-                        <span></span>
-                        <span></span>
                     </div>
 
-                    <div class="dashboard-title">
-                        STITOU Manager
+                    <div class="hero-meta">
+
+                        <span>
+                            <strong>2.4.3</strong> Dernière version
+                        </span>
+
+                        <span>
+                            <strong>100%</strong> Gratuit
+                        </span>
+
+                        <span>
+                            <strong>Windows</strong> 10 / 11
+                        </span>
+
                     </div>
 
                 </div>
 
-                <div class="dashboard-brand">
-                    STITOU
-                </div>
+                <div class="hero-visual">
 
-                <div class="dashboard-subtitle">
-                    Gestion Restaurant
-                </div>
+                    <div class="dashboard-card">
 
-                <div class="dashboard-grid">
+                        <div class="dashboard-content">
 
-                    <div class="dashboard-item">
-                        <div class="dashboard-item-icon">👥</div>
-                        <div class="dashboard-item-title">
-                            Employés
-                        </div>
-                        <div class="dashboard-item-value">
-                            Gestion RH
-                        </div>
-                    </div>
+                            <strong style="display: block; margin-bottom: 20px;">
+                                📊 Tableau de Bord
+                            </strong>
 
-                    <div class="dashboard-item">
-                        <div class="dashboard-item-icon">📦</div>
-                        <div class="dashboard-item-title">
-                            Stock
-                        </div>
-                        <div class="dashboard-item-value">
-                            Produits
-                        </div>
-                    </div>
+                            <p>
+                                Visualisation en temps réel
+                            </p>
 
-                    <div class="dashboard-item">
-                        <div class="dashboard-item-icon">💰</div>
-                        <div class="dashboard-item-title">
-                            Salaires
                         </div>
-                        <div class="dashboard-item-value">
-                            Paie
-                        </div>
-                    </div>
 
-                    <div class="dashboard-item">
-                        <div class="dashboard-item-icon">📊</div>
-                        <div class="dashboard-item-title">
-                            Finance
-                        </div>
-                        <div class="dashboard-item-value">
-                            Suivi
-                        </div>
-                    </div>
-
-                    <div class="dashboard-item">
-                        <div class="dashboard-item-icon">🧾</div>
-                        <div class="dashboard-item-title">
-                            Crédits
-                        </div>
-                        <div class="dashboard-item-value">
-                            Dettes
-                        </div>
-                    </div>
-
-                    <div class="dashboard-item">
-                        <div class="dashboard-item-icon">☁️</div>
-                        <div class="dashboard-item-title">
-                            Firebase
-                        </div>
-                        <div class="dashboard-item-value">
-                            Synchronisé
-                        </div>
                     </div>
 
                 </div>
@@ -1577,299 +1322,256 @@
 
         </div>
 
-    </div>
+    </section>
 
-</div>
+    <!-- =========================
+         TRUST
+    ========================= -->
 
+    <section class="trust" style="padding: 60px 0; border-top: 1px solid var(--border);">
 
-</section>
+        <div class="container">
 
-<!-- =========================
-     TRUST BAR
-========================= -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px;">
 
-<section class="trust-bar">
-
-
-<div class="container">
-
-    <div class="trust-grid">
-
-        <div class="trust-item motion-reveal">
-            <strong>Gestion complète</strong>
-            Restaurant
-        </div>
-
-        <div class="trust-item motion-reveal">
-            <strong>Windows 10 / 11</strong>
-            Compatible
-        </div>
-
-        <div class="trust-item motion-reveal">
-            <strong>Firebase</strong>
-            Synchronisation
-        </div>
-
-        <div class="trust-item motion-reveal">
-            <strong>2.4.3</strong>
-            Version actuelle
-        </div>
-
-    </div>
-
-</div>
-
-
-</section>
-
-<!-- =========================
-     FEATURES
-========================= -->
-
-<section
-    class="section features-section"
-    id="fonctionnalites">
-
-
-<div class="container">
-
-    <div class="section-header motion-reveal">
-
-        <div class="section-label">
-            Fonctionnalités
-        </div>
-
-        <h2 class="section-title">
-            Tout ce dont votre restaurant a besoin.
-        </h2>
-
-        <p class="section-description">
-            Une plateforme conçue pour centraliser vos opérations
-            quotidiennes et garder une vision claire de votre activité.
-        </p>
-
-    </div>
-
-
-    <div class="feature-grid">
-
-        <div class="feature-card motion-reveal">
-
-            <div class="feature-icon">👥</div>
-
-            <h3>
-                Gestion des employés
-            </h3>
-
-            <p>
-                Gérez les employés, leurs informations,
-                présences, absences et horaires.
-            </p>
-
-        </div>
-
-
-        <div class="feature-card motion-reveal">
-
-            <div class="feature-icon">📦</div>
-
-            <h3>
-                Stock & produits
-            </h3>
-
-            <p>
-                Suivez les produits, mouvements de stock
-                et informations fournisseurs.
-            </p>
-
-        </div>
-
-
-        <div class="feature-card motion-reveal">
-
-            <div class="feature-icon">💰</div>
-
-            <h3>
-                Salaires & avances
-            </h3>
-
-            <p>
-                Calculez et suivez les salaires, avances,
-                primes et retenues.
-            </p>
-
-        </div>
-
-
-        <div class="feature-card motion-reveal">
-
-            <div class="feature-icon">🏦</div>
-
-            <h3>
-                Finance quotidienne
-            </h3>
-
-            <p>
-                Gardez une vision claire des finances
-                quotidiennes de votre restaurant.
-            </p>
-
-        </div>
-
-
-        <div class="feature-card motion-reveal">
-
-            <div class="feature-icon">🧾</div>
-
-            <h3>
-                Crédits & dettes
-            </h3>
-
-            <p>
-                Organisez les crédits, dettes et paiements
-                de manière simple et structurée.
-            </p>
-
-        </div>
-
-
-        <div class="feature-card motion-reveal">
-
-            <div class="feature-icon">☁️</div>
-
-            <h3>
-                Synchronisation
-            </h3>
-
-            <p>
-                Travaillez avec vos données synchronisées
-                grâce à l'intégration Firebase.
-            </p>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-</section>
-
-<!-- =========================
-     SOLUTION
-========================= -->
-
-<section
-    class="section"
-    id="solution">
-
-
-<div class="container">
-
-    <div class="about-grid">
-
-        <div class="about-panel motion-reveal">
-
-            <div class="about-logo">
-                STITOU
-            </div>
-
-            <p>
-                Une solution pensée pour les restaurants
-                qui souhaitent passer d'une gestion dispersée
-                à une gestion centralisée, claire et moderne.
-            </p>
-
-        </div>
-
-
-        <div>
-
-            <div class="section-label">
-                Pourquoi STITOU ?
-            </div>
-
-            <h2 class="section-title">
-                Une seule application pour piloter votre activité.
-            </h2>
-
-            <div class="about-list">
-
-                <div class="about-item motion-reveal">
-
-                    <div class="check">
-                        ✓
-                    </div>
-
+                <div class="trust-item">
+                    <span class="trust-icon">✓</span>
                     <div>
-                        <h3>
-                            Une gestion centralisée
-                        </h3>
-
-                        <p>
-                            Toutes les informations importantes
-                            de votre restaurant réunies au même endroit.
-                        </p>
+                        <strong>Entièrement Gratuit</strong>
+                        <span style="color: var(--text-muted); display: block; font-size: 13px; margin-top: 4px;">
+                            Aucune limitation, aucun coût caché
+                        </span>
                     </div>
-
                 </div>
 
-
-                <div class="about-item motion-reveal">
-
-                    <div class="check">
-                        ✓
-                    </div>
-
+                <div class="trust-item">
+                    <span class="trust-icon">✓</span>
                     <div>
-                        <h3>
-                            Une interface claire
-                        </h3>
-
-                        <p>
-                            Une organisation simple pour retrouver
-                            rapidement les informations dont vous avez besoin.
-                        </p>
+                        <strong>Installation Simple</strong>
+                        <span style="color: var(--text-muted); display: block; font-size: 13px; margin-top: 4px;">
+                            Fichier exécutable Windows
+                        </span>
                     </div>
-
                 </div>
 
-
-                <div class="about-item motion-reveal">
-
-                    <div class="check">
-                        ✓
-                    </div>
-
+                <div class="trust-item">
+                    <span class="trust-icon">✓</span>
                     <div>
-                        <h3>
-                            Travail multi-utilisateur
-                        </h3>
-
-                        <p>
-                            Gérez les accès et travaillez avec
-                            plusieurs utilisateurs selon leurs rôles.
-                        </p>
+                        <strong>Données Sécurisées</strong>
+                        <span style="color: var(--text-muted); display: block; font-size: 13px; margin-top: 4px;">
+                            Synchronisation avec Firebase
+                        </span>
                     </div>
-
                 </div>
 
-
-                <div class="about-item motion-reveal">
-
-                    <div class="check">
-                        ✓
-                    </div>
-
+                <div class="trust-item">
+                    <span class="trust-icon">✓</span>
                     <div>
-                        <h3>
-                            Données synchronisées
-                        </h3>
+                        <strong>Tous les Modules</strong>
+                        <span style="color: var(--text-muted); display: block; font-size: 13px; margin-top: 4px;">
+                            Employés, stock, finances...
+                        </span>
+                    </div>
+                </div>
 
-                        <p>
-                            L'intégration Firebase permet de synchroniser
-                            les données entre vos appareils connectés.
-                        </p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- =========================
+         FEATURES
+    ========================= -->
+
+    <section id="fonctionnalites" class="features" style="padding: 80px 0;">
+
+        <div class="container">
+
+            <div class="section-header">
+
+                <h2>Fonctionnalités Complètes</h2>
+
+                <p>
+                    Tous les outils nécessaires pour gérer votre restaurant efficacement
+                </p>
+
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;">
+
+                <div class="feature-card" style="--delay: 0.1s;">
+
+                    <span class="feature-icon">👥</span>
+
+                    <h3>Gestion Employés</h3>
+
+                    <p>
+                        Gérez les profils, les horaires, les salaires et les évaluations
+                        de vos employés de façon simple et centralisée.
+                    </p>
+
+                </div>
+
+                <div class="feature-card" style="--delay: 0.2s;">
+
+                    <span class="feature-icon">📦</span>
+
+                    <h3>Gestion Stock</h3>
+
+                    <p>
+                        Suivi en temps réel des inventaires, alertes de seuil, historique
+                        complet et rapports détaillés.
+                    </p>
+
+                </div>
+
+                <div class="feature-card" style="--delay: 0.3s;">
+
+                    <span class="feature-icon">💼</span>
+
+                    <h3>Fournisseurs</h3>
+
+                    <p>
+                        Répertoire complet des fournisseurs, commandes, historiques
+                        et suivi des livraisons.
+                    </p>
+
+                </div>
+
+                <div class="feature-card" style="--delay: 0.4s;">
+
+                    <span class="feature-icon">💰</span>
+
+                    <h3>Finances</h3>
+
+                    <p>
+                        Comptabilité complète, factures, rapports financiers et analyses
+                        de rentabilité.
+                    </p>
+
+                </div>
+
+                <div class="feature-card" style="--delay: 0.5s;">
+
+                    <span class="feature-icon">📊</span>
+
+                    <h3>Analyses</h3>
+
+                    <p>
+                        Tableaux de bord détaillés, graphiques intuitifs et rapports
+                        personnalisables.
+                    </p>
+
+                </div>
+
+                <div class="feature-card" style="--delay: 0.6s;">
+
+                    <span class="feature-icon">🔄</span>
+
+                    <h3>Synchronisation</h3>
+
+                    <p>
+                        Sauvegarde Firebase automatique, accès multi-utilisateurs et
+                        synchronisation temps réel.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- =========================
+         SOLUTION
+    ========================= -->
+
+    <section id="solution" class="solution" style="padding: 80px 0;">
+
+        <div class="container">
+
+            <div class="section-header">
+
+                <h2>La Solution Complète</h2>
+
+                <p>
+                    Une plateforme intégrée pour tous vos besoins de gestion
+                </p>
+
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;">
+
+                <div class="about-panel">
+
+                    <div class="panel-header">
+                        <h3>📱 Interface Moderne</h3>
+                    </div>
+
+                    <div class="panel-content">
+
+                        <div class="about-item">
+                            <strong>Design Intuitif</strong> — Navigation facile et ergonomique
+                        </div>
+
+                        <div class="about-item">
+                            <strong>Responsive</strong> — Fonctionne sur tous les écrans
+                        </div>
+
+                        <div class="about-item">
+                            <strong>Thème Sombre</strong> — Confortable pour les yeux
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="about-panel">
+
+                    <div class="panel-header">
+                        <h3>🔒 Sécurité</h3>
+                    </div>
+
+                    <div class="panel-content">
+
+                        <div class="about-item">
+                            <strong>Données Chiffrées</strong> — Protection Firebase
+                        </div>
+
+                        <div class="about-item">
+                            <strong>Authentification</strong> — Accès sécurisé
+                        </div>
+
+                        <div class="about-item">
+                            <strong>Sauvegarde Cloud</strong> — Jamais perdre vos données
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="about-panel">
+
+                    <div class="panel-header">
+                        <h3>⚡ Performance</h3>
+                    </div>
+
+                    <div class="panel-content">
+
+                        <div class="about-item">
+                            <strong>Très Rapide</strong> — Chargement instantané
+                        </div>
+
+                        <div class="about-item">
+                            <strong>Léger</strong> — Installation rapide
+                        </div>
+
+                        <div class="about-item">
+                            <strong>Optimisé</strong> — Minimum de ressources
+                        </div>
+
                     </div>
 
                 </div>
@@ -1878,177 +1580,95 @@
 
         </div>
 
-    </div>
+    </section>
 
-</div>
+    <!-- =========================
+         SCREENSHOTS
+    ========================= -->
 
+    <section id="screenshots" style="padding: 80px 0;">
 
-</section>
+        <div class="container">
 
-<!-- =========================
-     SCREENSHOTS
-========================= -->
+            <div class="section-header">
 
-<section class="section screenshots-section">
+                <h2>Galerie</h2>
 
+                <p>
+                    Découvrez l'interface de STITOU Manager
+                </p>
 
-<div class="container">
-
-    <div class="section-header motion-reveal">
-
-        <div class="section-label">
-            Interface
-        </div>
-
-        <h2 class="section-title">
-            Découvrez STITOU Manager.
-        </h2>
-
-        <p class="section-description">
-            Une interface moderne conçue pour faciliter
-            la gestion quotidienne de votre restaurant.
-        </p>
-
-    </div>
-
-
-    <div class="screenshots-grid">
-
-        <div class="screenshot-placeholder motion-reveal">
-            <span>🖥️</span>
-            <strong>Tableau de bord</strong>
-            <small>
-                Capture d'écran à ajouter
-            </small>
-        </div>
-
-        <div class="screenshot-placeholder motion-reveal">
-            <span>📦</span>
-            <strong>Gestion du stock</strong>
-            <small>
-                Capture d'écran à ajouter
-            </small>
-        </div>
-
-        <div class="screenshot-placeholder motion-reveal">
-            <span>💰</span>
-            <strong>Finance & salaires</strong>
-            <small>
-                Capture d'écran à ajouter
-            </small>
-        </div>
-
-    </div>
-
-</div>
-
-
-</section>
-
-<!-- =========================
-     CTA
-========================= -->
-
-<section class="cta">
-
-
-<div class="container">
-
-    <div class="cta-box">
-
-        <div class="section-label">
-            Commencez maintenant
-        </div>
-
-        <h2>
-            Prêt à simplifier votre gestion ?
-        </h2>
-
-        <p>
-            Téléchargez STITOU Manager pour Windows
-            et centralisez la gestion de votre restaurant
-            dans une seule solution.
-        </p>
-
-        <a
-            class="primary-button"
-            href="https://github.com/achrafbjn74/STITO-Manager/releases/download/v2.4.3/STITOU.Manager-2.4.3.exe">
-
-            ↓ Télécharger STITOU Manager
-
-        </a>
-
-        <div class="cta-version">
-            Version 2.4.3 · Windows 10 / Windows 11 · 64 bits
-        </div>
-
-    </div>
-
-</div>
-
-
-</section>
-
-<!-- =========================
-     REQUIREMENTS
-========================= -->
-
-<section
-    class="section requirements"
-    id="configuration">
-
-<div class="container">
-
-    <div class="section-header motion-reveal">
-
-        <div class="section-label">
-            Configuration
-        </div>
-
-        <h2 class="section-title">
-            Simple à installer.
-        </h2>
-
-        <p class="section-description">
-            STITOU Manager est distribué sous forme
-            d'installateur Windows.
-        </p>
-
-    </div>
-
-
-    <div class="requirements-box">
-
-        <div class="requirements-grid">
-
-            <div class="requirement motion-reveal">
-                <strong>Système</strong>
-                Windows 10 ou Windows 11
             </div>
 
-            <div class="requirement motion-reveal">
-                <strong>Architecture</strong>
-                64 bits
-            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 24px;">
 
-            <div class="requirement motion-reveal">
-                <strong>Java</strong>
-                Aucune installation séparée nécessaire
-            </div>
+                <div class="screenshot-placeholder">
+                    <strong>📊 Tableau de Bord</strong>
+                </div>
 
-            <div class="requirement motion-reveal">
-                <strong>Internet</strong>
-                Recommandé pour la synchronisation
+                <div class="screenshot-placeholder">
+                    <strong>👥 Gestion des Employés</strong>
+                </div>
+
+                <div class="screenshot-placeholder">
+                    <strong>📦 Inventaire</strong>
+                </div>
+
+                <div class="screenshot-placeholder">
+                    <strong>💰 Finances</strong>
+                </div>
+
             </div>
 
         </div>
 
-    </div>
+    </section>
 
-</div>
+    <!-- =========================
+         CONFIGURATION
+    ========================= -->
 
+    <section id="configuration" style="padding: 80px 0;">
 
-</section>
+        <div class="container">
+
+            <div class="section-header">
+
+                <h2>Configuration Requise</h2>
+
+                <p>
+                    Vérifiez la compatibilité de votre système
+                </p>
+
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+
+                <div class="requirement">
+                    <strong>Système</strong>
+                    Windows 10 ou Windows 11
+                </div>
+
+                <div class="requirement">
+                    <strong>Architecture</strong>
+                    64 bits
+                </div>
+
+                <div class="requirement">
+                    <strong>Java</strong>
+                    Aucune installation séparée nécessaire
+                </div>
+
+                <div class="requirement">
+                    <strong>Internet</strong>
+                    Recommandé pour la synchronisation
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
 
 </main>
 
@@ -2233,7 +1853,19 @@
     updateScrollUI();
 
     /* ---------------------------------
-       3. Mobile navigation
+       3. Header shadow on scroll
+    --------------------------------- */
+    const header = document.querySelector("header");
+    window.addEventListener("scroll", () => {
+        if (window.scrollY > 10) {
+            header.classList.add("scrolled");
+        } else {
+            header.classList.remove("scrolled");
+        }
+    }, { passive: true });
+
+    /* ---------------------------------
+       4. Mobile navigation
     --------------------------------- */
     const navbar = document.querySelector(".navbar");
     const navLinks = document.querySelector(".nav-links");
@@ -2272,7 +1904,7 @@
     }
 
     /* ---------------------------------
-       4. Active navigation section
+       5. Active navigation section
     --------------------------------- */
     const navAnchors = Array.from(document.querySelectorAll(
         '.nav-links a[href^="#"], footer a[href^="#"]'
@@ -2305,7 +1937,7 @@
     }
 
     /* ---------------------------------
-       5. Gentle dashboard mouse motion
+       6. Gentle dashboard mouse motion
     --------------------------------- */
     const dashboard = document.querySelector(".dashboard-card");
 
@@ -2331,7 +1963,7 @@
     }
 
     /* ---------------------------------
-       6. Prevent accidental duplicate download
+       7. Prevent accidental duplicate download
           actions from being changed; only add
           an accessibility hint.
     --------------------------------- */
