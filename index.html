@@ -106,6 +106,17 @@
         }
     }
 
+    @keyframes rotateInScale {
+        from {
+            opacity: 0;
+            transform: scale(0.8) rotate(-10deg);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+        }
+    }
+
     @keyframes glow {
         0%, 100% {
             box-shadow: 0 0 20px rgba(255, 225, 126, 0.1);
@@ -133,6 +144,37 @@
         }
     }
 
+    @keyframes bounce {
+        0%, 100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-15px);
+        }
+    }
+
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(60px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-60px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
     @keyframes rotateBg {
         from {
             transform: rotate(0deg);
@@ -140,6 +182,81 @@
         to {
             transform: rotate(360deg);
         }
+    }
+
+    /* =========================
+       SCROLL ANIMATION STATES
+    ========================= */
+
+    [data-scroll="slide-up"] {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    [data-scroll="slide-up"].is-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    [data-scroll="slide-down"] {
+        opacity: 0;
+        transform: translateY(-40px);
+        transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    [data-scroll="slide-down"].is-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    [data-scroll="slide-left"] {
+        opacity: 0;
+        transform: translateX(-50px);
+        transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    [data-scroll="slide-left"].is-visible {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    [data-scroll="slide-right"] {
+        opacity: 0;
+        transform: translateX(50px);
+        transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    [data-scroll="slide-right"].is-visible {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    [data-scroll="scale-rotate"] {
+        opacity: 0;
+        transform: scale(0.8) rotate(-15deg);
+        transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    [data-scroll="scale-rotate"].is-visible {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
+
+    [data-scroll="bounce"] {
+        opacity: 0;
+        transform: translateY(30px) scale(0.9);
+        transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    [data-scroll="bounce"].is-visible {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        animation: bounce 0.6s ease 0.4s;
+    }
+
+    [data-scroll="parallax"] {
+        transition: transform 0.5s ease-out;
     }
 
     /* =========================
@@ -567,35 +684,69 @@
         animation: slideInRight 0.8s ease 0.2s both;
     }
 
-    .dashboard-card {
-        position: absolute;
+    .moroccan-cooking-card {
+        position: relative;
         width: 100%;
         height: 100%;
-        background: linear-gradient(135deg, rgba(255, 225, 126, 0.1), rgba(255, 225, 126, 0.05));
         border: 1px solid var(--border);
         border-radius: var(--radius);
-        backdrop-filter: blur(10px);
-        display: grid;
-        place-items: center;
+        overflow: hidden;
         box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-        transition: all 0.3s ease;
+        transition: all 0.4s ease;
+    }
+
+    .moroccan-cooking-card:hover {
+        box-shadow: 0 35px 70px rgba(255, 225, 126, 0.15);
+        border-color: rgba(255, 225, 126, 0.3);
+        transform: translateY(-8px);
+    }
+
+    .cooking-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .moroccan-cooking-card:hover .cooking-image {
+        transform: scale(1.08);
+    }
+
+    .cooking-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            135deg,
+            rgba(255, 225, 126, 0.15),
+            rgba(255, 225, 126, 0.05)
+        );
+        display: flex;
+        align-items: flex-end;
+        padding: 30px;
+        opacity: 0;
+        transition: all 0.4s ease;
+    }
+
+    .moroccan-cooking-card:hover .cooking-overlay {
+        opacity: 1;
+    }
+
+    .cooking-badge {
+        background: rgba(255, 225, 126, 0.95);
+        color: #101010;
+        padding: 14px 20px;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 15px;
+        backdrop-filter: blur(10px);
+        transform: translateY(20px);
+        transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         animation: float 6s ease-in-out infinite;
     }
 
-    .dashboard-card:hover {
-        box-shadow: 0 35px 70px rgba(255, 225, 126, 0.15);
-        border-color: rgba(255, 225, 126, 0.3);
-    }
-
-    .dashboard-content {
-        text-align: center;
-        opacity: 0.8;
-        transition: all 0.3s ease;
-    }
-
-    .dashboard-card:hover .dashboard-content {
-        opacity: 1;
-        transform: scale(1.02);
+    .moroccan-cooking-card:hover .cooking-badge {
+        transform: translateY(0);
     }
 
     /* =========================
@@ -610,8 +761,6 @@
         transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         position: relative;
         overflow: hidden;
-        opacity: 0;
-        animation: fadeInUp 0.8s ease both;
     }
 
     .feature-card::before {
@@ -719,8 +868,6 @@
     .section-header {
         text-align: center;
         margin-bottom: 60px;
-        opacity: 0;
-        animation: fadeInUp 0.8s ease both;
     }
 
     .section-header h2 {
@@ -758,8 +905,6 @@
         border-radius: var(--radius);
         overflow: hidden;
         transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        opacity: 0;
-        animation: fadeInUp 0.8s ease both;
     }
 
     .about-panel:hover {
@@ -806,8 +951,6 @@
         background: rgba(255, 255, 255, 0.03);
         border-left: 3px solid transparent;
         transition: all 0.3s ease;
-        opacity: 0;
-        animation: slideInLeft 0.6s ease both;
     }
 
     .about-item:last-child {
@@ -842,8 +985,6 @@
         display: grid;
         place-items: center;
         transition: all 0.4s ease;
-        opacity: 0;
-        animation: fadeInUp 0.8s ease both;
     }
 
     .screenshot-placeholder:hover {
@@ -867,8 +1008,6 @@
         background: linear-gradient(135deg, rgba(255, 225, 126, 0.06), transparent);
         border: 1px solid var(--border);
         transition: all 0.3s ease;
-        opacity: 0;
-        animation: fadeInUp 0.6s ease both;
     }
 
     .requirement:hover {
@@ -1125,15 +1264,6 @@
     }
 
     /* =========================
-       MOTION REVEAL
-    ========================= */
-
-    .motion-reveal {
-        opacity: 0;
-        animation: fadeInUp 0.6s ease forwards;
-    }
-
-    /* =========================
        RESPONSIVE
     ========================= */
 
@@ -1248,27 +1378,27 @@
 
                 <div class="hero-content">
 
-                    <span class="eyebrow">
+                    <span class="eyebrow" data-scroll="slide-up">
                         <span class="eyebrow-dot"></span>
                         SOLUTION POUR RESTAURANTS
                     </span>
 
-                    <h1>
+                    <h1 data-scroll="slide-up">
                         STITOU
                         <span>Manager</span>
                     </h1>
 
-                    <p class="hero-title">
+                    <p class="hero-title" data-scroll="slide-up">
                         Gestion complète et centralisée
                     </p>
 
-                    <p class="hero-description">
+                    <p class="hero-description" data-scroll="slide-up">
                         Solution professionnelle tout-en-un pour restaurants. Gérez vos employés,
                         votre stock, vos fournisseurs, vos salaires et vos finances en un seul endroit.
                         Synchronisation Firebase pour une accessibilité maximale.
                     </p>
 
-                    <div class="hero-actions">
+                    <div class="hero-actions" data-scroll="slide-up">
 
                         <a href="https://github.com/achrafbjn74/STITO-Manager/releases/download/v2.4.3/STITOU.Manager-2.4.3.exe" class="primary-button">
                             ↓ Télécharger Gratuitement
@@ -1280,7 +1410,7 @@
 
                     </div>
 
-                    <div class="hero-meta">
+                    <div class="hero-meta" data-scroll="slide-up">
 
                         <span>
                             <strong>2.4.3</strong> Dernière version
@@ -1298,22 +1428,24 @@
 
                 </div>
 
-                <div class="hero-visual">
-    <div class="moroccan-cooking-card">
-     <img 
-            src="moroccan-cooking.png" 
-            alt="Authentic Moroccan Cooking - Tagine and Traditional Dishes" 
-            class="cooking-image" 
-            loading="lazy" 
-            decoding="async"
-        >
-        <div class="cooking-overlay">
-            <div class="cooking-badge">
-                🍲 Cuisine Marocaine Authentique
-            </div>
-        </div>
-    </div>
-</div>
+                <div class="hero-visual" data-scroll="parallax">
+
+                    <div class="moroccan-cooking-card">
+                        <img 
+                            src="moroccan-cooking.png" 
+                            alt="Authentic Moroccan Cooking - Tagine and Traditional Dishes" 
+                            class="cooking-image" 
+                            loading="lazy" 
+                            decoding="async"
+                        >
+                        <div class="cooking-overlay">
+                            <div class="cooking-badge">
+                                🍲 Cuisine Marocaine Authentique
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
 
             </div>
 
@@ -1331,7 +1463,7 @@
 
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px;">
 
-                <div class="trust-item">
+                <div class="trust-item" data-scroll="slide-up">
                     <span class="trust-icon">✓</span>
                     <div>
                         <strong>Entièrement Gratuit</strong>
@@ -1341,7 +1473,7 @@
                     </div>
                 </div>
 
-                <div class="trust-item">
+                <div class="trust-item" data-scroll="slide-up">
                     <span class="trust-icon">✓</span>
                     <div>
                         <strong>Installation Simple</strong>
@@ -1351,7 +1483,7 @@
                     </div>
                 </div>
 
-                <div class="trust-item">
+                <div class="trust-item" data-scroll="slide-up">
                     <span class="trust-icon">✓</span>
                     <div>
                         <strong>Données Sécurisées</strong>
@@ -1361,7 +1493,7 @@
                     </div>
                 </div>
 
-                <div class="trust-item">
+                <div class="trust-item" data-scroll="slide-up">
                     <span class="trust-icon">✓</span>
                     <div>
                         <strong>Tous les Modules</strong>
@@ -1385,7 +1517,7 @@
 
         <div class="container">
 
-            <div class="section-header">
+            <div class="section-header" data-scroll="slide-down">
 
                 <h2>Fonctionnalités Complètes</h2>
 
@@ -1397,7 +1529,7 @@
 
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;">
 
-                <div class="feature-card" style="--delay: 0.1s;">
+                <div class="feature-card" data-scroll="scale-rotate">
 
                     <span class="feature-icon">👥</span>
 
@@ -1410,7 +1542,7 @@
 
                 </div>
 
-                <div class="feature-card" style="--delay: 0.2s;">
+                <div class="feature-card" data-scroll="scale-rotate">
 
                     <span class="feature-icon">📦</span>
 
@@ -1423,7 +1555,7 @@
 
                 </div>
 
-                <div class="feature-card" style="--delay: 0.3s;">
+                <div class="feature-card" data-scroll="scale-rotate">
 
                     <span class="feature-icon">💼</span>
 
@@ -1436,7 +1568,7 @@
 
                 </div>
 
-                <div class="feature-card" style="--delay: 0.4s;">
+                <div class="feature-card" data-scroll="scale-rotate">
 
                     <span class="feature-icon">💰</span>
 
@@ -1449,7 +1581,7 @@
 
                 </div>
 
-                <div class="feature-card" style="--delay: 0.5s;">
+                <div class="feature-card" data-scroll="scale-rotate">
 
                     <span class="feature-icon">📊</span>
 
@@ -1462,7 +1594,7 @@
 
                 </div>
 
-                <div class="feature-card" style="--delay: 0.6s;">
+                <div class="feature-card" data-scroll="scale-rotate">
 
                     <span class="feature-icon">🔄</span>
 
@@ -1489,7 +1621,7 @@
 
         <div class="container">
 
-            <div class="section-header">
+            <div class="section-header" data-scroll="slide-down">
 
                 <h2>La Solution Complète</h2>
 
@@ -1501,7 +1633,7 @@
 
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;">
 
-                <div class="about-panel">
+                <div class="about-panel" data-scroll="slide-left">
 
                     <div class="panel-header">
                         <h3>📱 Interface Moderne</h3>
@@ -1525,7 +1657,7 @@
 
                 </div>
 
-                <div class="about-panel">
+                <div class="about-panel" data-scroll="slide-left">
 
                     <div class="panel-header">
                         <h3>🔒 Sécurité</h3>
@@ -1549,7 +1681,7 @@
 
                 </div>
 
-                <div class="about-panel">
+                <div class="about-panel" data-scroll="slide-left">
 
                     <div class="panel-header">
                         <h3>⚡ Performance</h3>
@@ -1587,7 +1719,7 @@
 
         <div class="container">
 
-            <div class="section-header">
+            <div class="section-header" data-scroll="slide-down">
 
                 <h2>Galerie</h2>
 
@@ -1599,19 +1731,19 @@
 
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 24px;">
 
-                <div class="screenshot-placeholder">
+                <div class="screenshot-placeholder" data-scroll="bounce">
                     <strong>📊 Tableau de Bord</strong>
                 </div>
 
-                <div class="screenshot-placeholder">
+                <div class="screenshot-placeholder" data-scroll="bounce">
                     <strong>👥 Gestion des Employés</strong>
                 </div>
 
-                <div class="screenshot-placeholder">
+                <div class="screenshot-placeholder" data-scroll="bounce">
                     <strong>📦 Inventaire</strong>
                 </div>
 
-                <div class="screenshot-placeholder">
+                <div class="screenshot-placeholder" data-scroll="bounce">
                     <strong>💰 Finances</strong>
                 </div>
 
@@ -1629,7 +1761,7 @@
 
         <div class="container">
 
-            <div class="section-header">
+            <div class="section-header" data-scroll="slide-down">
 
                 <h2>Configuration Requise</h2>
 
@@ -1641,22 +1773,22 @@
 
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
 
-                <div class="requirement">
+                <div class="requirement" data-scroll="slide-up">
                     <strong>Système</strong>
                     Windows 10 ou Windows 11
                 </div>
 
-                <div class="requirement">
+                <div class="requirement" data-scroll="slide-up">
                     <strong>Architecture</strong>
                     64 bits
                 </div>
 
-                <div class="requirement">
+                <div class="requirement" data-scroll="slide-up">
                     <strong>Java</strong>
                     Aucune installation séparée nécessaire
                 </div>
 
-                <div class="requirement">
+                <div class="requirement" data-scroll="slide-up">
                     <strong>Internet</strong>
                     Recommandé pour la synchronisation
                 </div>
@@ -1767,46 +1899,56 @@
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     /* ---------------------------------
-       1. Scroll reveal + stagger
+       1. Advanced Scroll Animation System
     --------------------------------- */
-    const revealGroups = [
-        ".section-header",
-        ".trust-item",
-        ".feature-card",
-        ".about-panel",
-        ".about-item",
-        ".screenshot-placeholder",
-        ".requirement"
-    ];
-
     if (!reduceMotion && "IntersectionObserver" in window) {
-        const observer = new IntersectionObserver((entries, obs) => {
-            entries.forEach(entry => {
-                if (!entry.isIntersecting) return;
+        const scrollElements = document.querySelectorAll("[data-scroll]");
 
-                const element = entry.target;
-                element.classList.add("is-visible");
-                obs.unobserve(element);
+        const scrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("is-visible");
+                    // Optional: unobserve after animation
+                    // scrollObserver.unobserve(entry.target);
+                } else {
+                    // Re-trigger animation on scroll back up
+                    entry.target.classList.remove("is-visible");
+                }
             });
         }, {
-            threshold: 0.12,
-            rootMargin: "0px 0px -45px 0px"
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
         });
 
-        revealGroups.forEach(selector => {
-            document.querySelectorAll(selector).forEach((element, index) => {
-                element.style.transitionDelay = `${Math.min(index * 55, 330)}ms`;
-                observer.observe(element);
-            });
-        });
-    } else {
-        document.querySelectorAll(".motion-reveal").forEach(el => {
-            el.classList.add("is-visible");
+        scrollElements.forEach((element, index) => {
+            element.style.transitionDelay = `${Math.min(index * 80, 400)}ms`;
+            scrollObserver.observe(element);
         });
     }
 
     /* ---------------------------------
-       2. Reading progress + back to top
+       2. Parallax Scroll Effect
+    --------------------------------- */
+    const parallaxElements = document.querySelectorAll("[data-scroll='parallax']");
+    
+    if (!reduceMotion && parallaxElements.length > 0) {
+        window.addEventListener("scroll", () => {
+            parallaxElements.forEach(element => {
+                const rect = element.getBoundingClientRect();
+                const scrollPosition = window.scrollY;
+                const elementPosition = scrollPosition + rect.top;
+                const distance = scrollPosition - (elementPosition - window.innerHeight);
+                
+                if (distance > -window.innerHeight && distance < window.innerHeight) {
+                    const parallaxValue = distance * 0.3;
+                    element.style.transform = `translateY(${parallaxValue}px)`;
+                }
+            });
+        }, { passive: true });
+    }
+
+    /* ---------------------------------
+       3. Reading progress + back to top
     --------------------------------- */
     const progress = document.createElement("div");
     progress.id = "stito-progress";
@@ -1850,7 +1992,7 @@
     updateScrollUI();
 
     /* ---------------------------------
-       3. Header shadow on scroll
+       4. Header shadow on scroll
     --------------------------------- */
     const header = document.querySelector("header");
     window.addEventListener("scroll", () => {
@@ -1862,7 +2004,7 @@
     }, { passive: true });
 
     /* ---------------------------------
-       4. Mobile navigation
+       5. Mobile navigation
     --------------------------------- */
     const navbar = document.querySelector(".navbar");
     const navLinks = document.querySelector(".nav-links");
@@ -1901,7 +2043,7 @@
     }
 
     /* ---------------------------------
-       5. Active navigation section
+       6. Active navigation section
     --------------------------------- */
     const navAnchors = Array.from(document.querySelectorAll(
         '.nav-links a[href^="#"], footer a[href^="#"]'
@@ -1934,35 +2076,45 @@
     }
 
     /* ---------------------------------
-       6. Gentle dashboard mouse motion
+       7. Mouse motion effect for cooking card
     --------------------------------- */
-    const dashboard = document.querySelector(".dashboard-card");
+    const cookingCard = document.querySelector(".moroccan-cooking-card");
 
-    if (dashboard && !reduceMotion && window.matchMedia("(pointer: fine)").matches) {
-        const visual = dashboard.closest(".hero-visual");
+    if (cookingCard && !reduceMotion && window.matchMedia("(pointer: fine)").matches) {
+        const visual = cookingCard.closest(".hero-visual");
 
         visual?.addEventListener("pointermove", event => {
             const rect = visual.getBoundingClientRect();
             const x = (event.clientX - rect.left) / rect.width - 0.5;
             const y = (event.clientY - rect.top) / rect.height - 0.5;
 
-            dashboard.style.animationPlayState = "paused";
-            dashboard.style.transform =
-                `perspective(1000px) rotateY(${(-5 + x * 7).toFixed(2)}deg) ` +
-                `rotateX(${(2 - y * 5).toFixed(2)}deg) ` +
-                `translate3d(${(x * 5).toFixed(1)}px, ${(y * -5).toFixed(1)}px, 0)`;
+            cookingCard.style.transform =
+                `perspective(1000px) rotateY(${(-3 + x * 4).toFixed(2)}deg) ` +
+                `rotateX(${(1 - y * 3).toFixed(2)}deg) ` +
+                `translate3d(${(x * 3).toFixed(1)}px, ${(y * -3).toFixed(1)}px, 0)`;
         });
 
         visual?.addEventListener("pointerleave", () => {
-            dashboard.style.animationPlayState = "";
-            dashboard.style.transform = "";
+            cookingCard.style.transform = "";
         });
     }
 
     /* ---------------------------------
-       7. Prevent accidental duplicate download
-          actions from being changed; only add
-          an accessibility hint.
+       8. Staggered element reveal on load
+    --------------------------------- */
+    window.addEventListener("load", () => {
+        const elements = document.querySelectorAll("[data-scroll]");
+        elements.forEach((element, index) => {
+            setTimeout(() => {
+                if (element.getBoundingClientRect().top < window.innerHeight) {
+                    element.classList.add("is-visible");
+                }
+            }, index * 50);
+        });
+    });
+
+    /* ---------------------------------
+       9. Prevent accidental duplicate download
     --------------------------------- */
     document.querySelectorAll('a[href$=".exe"]').forEach(link => {
         link.setAttribute("download", "");
